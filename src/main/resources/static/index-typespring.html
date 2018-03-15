@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title> new document </title>
+  <meta name="generator" content="editplus" />
+  <meta name="author" content="" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+ </head>
+
+ <body>
+	<div jwcid="@cs:BaseTrade" getSysDate=true>
+	<script type="text/javascript" jwcid="@Any"
+		src="ognl:scriptRoot+'/app/personalserv/batnorealshutdown/BatNoRealShutDown.js'"></script>		
+	<form jwcid="form1@Form">
+		<div class="c_search">
+        <div id="queryArea" class="c_content">			
+				<div class="e_title">查询区</div>      
+			      <table cellpadding="0" cellspacing="0" class="threeCol" >
+
+					<tr>
+						<td class="label">查询方式：</td>		
+						<td> <select class="txt"  jwcid="HANDLE_TAG@flower:LookupCombo" source='ognl:util.getOptions(#{"3":"员工ID","2":"批次号","1":"用户号码"})' value="ognl:cellTp.HANDLE_TAG" onrealvaluechange="rpgCheck('',this);"/></td>
+						
+						<td class = "label" id="area3_1">员工ID：	</td>
+						<td id="area3_2"  style="display:none"><input type="text"  jwcid="STAFF_ID@TextField"  value="ognl:cellTp.STAFF_ID"  style="width:150px"class='txt' required="true"/></td>   
+						
+						<td class = "label" id="area1">业务号码：	</td>
+						<td  id="area1_1"><input type="text"  jwcid="SERIALNUMBER@TextField"  value="ognl:serialNumber" checkdata="isdigit,maxlength=18" style="width:150px"class='txt' required="true"/></td>
+						
+						<td class = "label" id="area2">批次号：	</td>
+						<td id="area2_1"><input type="text"  jwcid="SUBSCRIBE_ID_1@TextField"  value="ognl:subsribe_id" checkdata="isdigit,maxlength=18" style="width:150px"class='txt' required="true"/></td>
+						
+						
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn2" type="button" jwcid="queryVipinfos@Button"  value=" 查询 "  onclick="return doQuery()" /></td><td></td><td></td><td></td>
+						</tr>	
+					<tr id="area3" >	
+					<td  class = "label">查询：</td><td><span jwcid="HANDLE_TAG_1@RadioGroup" selected='ognl:cellTp.HANDLE_TAG_1'>
+					<input type="radio" jwcid="@Radio" value="0" onclick="" style="display: none" />									
+						<input type="radio" jwcid="@Radio" value="1" onclick="rpgCheck1('',this)" checked /> 执行结果
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" jwcid="@Radio" value="2" onclick="rpgCheck1('',this)" /> 批次号 
+								</span></td>
+					<!--<td><select class="txt"  jwcid="HANDLE_TAG_1@flower:LookupCombo" source='ognl:util.getOptions(#{"1":"所有订单","2":"批次号"})' value="ognl:cellTp.HANDLE_TAG_1" /></td>  -->
+					
+					<td class="label">时间段：</td><td><input type="text" style="width:100px" class="txt" jwcid="START_DATE_HIS@wade:DateField" id="START_DATE_HIS" name="startDate" format="yyyy-MM-dd" value="ognl:cellTp.startDate" required="true" disabled="false" /></td>
+                	<td>至&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"style="width:100px" class="txt" jwcid="FINISH_DATE_HIS@wade:DateField" id="END_DATE_HIS" name="endDate" format="yyyy-MM-dd" value="ognl:endDate" required="true" disabled="false" /></td>
+        			<td></td><td></td><td></td>
+					</tr>
+					<tr id="area6" >				
+						<td class = "label">受理结果：	</td>
+						<td><select class="txt"  jwcid="MATCH_TAG@flower:LookupCombo" source='ognl:util.getOptions(#{"-1":"全部","0":"未受理","1":"非实名半停机","2":"非实名停机","3":"失败"})' value="ognl:cellTp.MATCH_TAG" "/>
+						</td>		
+					</tr>
+					
+				</table>
+    	    	
+			</div></div>
+			<div class="c_content">
+				<div class="e_title">
+					浏览区 
+				</div>
+				<div id="tabArea" class="UITable"
+					style="overflow-y:auto;height:260px;">
+					<table id="theTableName">
+						<thead>
+							<tr>
+								<th style="text-align:center;" id="col_SUBSCRIBE_ID">批次号</th>
+								<th style="text-align:center;" id="col_INSERT_TIME">导入时间</th>
+								<th style="text-align:center;" id="col_SERIAL_NUMBER">号码</th>
+								<th style="text-align:center;" id="col_STAFF_ID">员工ID</th>
+								<th style="text-align:center;" id="col_EXEC_RESULT">执行结果</th>
+								<th style="text-align:center;" id="col_EXEC_DESC">结果描述</th>									
+								<th style="text-align:center;" id="col_USER_ID">用户ID</th>
+								<th style="text-align:center;" id="col_USER_STATE">用户状态</th>
+								<th style="text-align:center;" id="col_TAG">非实名属性</th>
+								<th style="text-align:center;" id="col_RSRV_STR1">执行时间</th>
+								<th id="col_ROW_STATE" style="display:none" >行状态</th><!--用来判断行是否被选中 --> 
+							</tr>
+						</thead>
+                        <tbody>
+						<tr jwcid="@ListEdit" source="ognl:vipInfos" value="ognl:vipInfo" element="tr" index="ognl:rowIndex" 
+							bgcolor="ognl:rowIndex % 2 == 0 ? '#E9F1FE' : '#F4F9FF'"　onclick="tabEdit.clickRow()">
+							<td><span jwcid="@Insert" value="ognl:vipInfo.SUBSCRIBE_ID" raw="true" /></td>
+							<td><span jwcid="@Insert" value="ognl:vipInfo.INSERT_TIME" raw="true" /></td>
+							<td><span jwcid="@Insert" value="ognl:vipInfo.SERIAL_NUMBER" raw="true" /></td>
+							<td><span jwcid="@Insert" value="ognl:vipInfo.STAFF_ID" raw="true" /></td> 
+							<td><span jwcid="@Insert" value="ognl:vipInfo.EXEC_RESULT" raw="true" /></td>    
+							<td><span jwcid="@Insert" value="ognl:vipInfo.EXEC_DESC" raw="true" /></td>  
+							<td><span jwcid="@Insert" value="ognl:vipInfo.USER_ID" raw="true" /></td>      								          		
+							<td><span jwcid="@Insert" value="ognl:vipInfo.USER_STATE" raw="true" /></td>           
+							<td><span jwcid="@Insert" value="ognl:vipInfo.REAL_CUST_NM" raw="true" /></td>    
+							<td><span jwcid="@Insert" value="ognl:vipInfo.RSRV_STR1" raw="true" /></td>   
+							
+
+							<!--<td><span jwcid="@Insert" value="ognl:vipInfo.STAFF_ID" raw="true" /></td> -->
+	             								      	           
+						</tr>		
+					</tbody>	
+					</table>
+				</div>
+				<td>
+				<img onClick="return p_page();" alt="上一页"
+							src="/images-custserv/ico_left.gif" border="0" />
+						&nbsp;
+						<img src="/images-custserv/body_submenu_mullion.gif" border="0" />
+						&nbsp;
+						<img onClick="return n_page();" alt="下一页"
+							src="/images-custserv/ico_right.gif" border="0" />
+						&nbsp;页号
+						<input jwcid="cond_PAGE_NUM@TextField"
+							value="ognl:cellTp.COND_PAGE_NUM" style="width: 50px"
+							checkdata="isinteger" />
+						&nbsp;每页条数
+						<input jwcid="cond_PER_PAGE_NUM@TextField"
+							value="ognl:cellTp.COND_PER_PAGE_NUM" style="width: 50px"
+							checkdata="isinteger" disabled=true />
+						&nbsp;本页条数
+						<input jwcid="cond_CUR_NUM@TextField"
+							value="ognl:cellTp.CUR_NUM" style="width: 50px"
+							checkdata="isinteger" disabled=true />
+						</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						
+			</div>
+			</form>	<form jwcid="form2@Form">
+						<div id="operArea" class="c_content">
+				<div class="e_title">操作区域</div>
+               <div class="info 一行数据">	
+			 		<span class="wordr"><img src="/component/images/answers.gif" alt="info" width="13" height="14" class="imgtop_2" />注意事项：</span>
+			 		<a >文件导入为.txt格式;业务最大允许行数为200行;每一行例如：186********</a>&nbsp;&nbsp;               
+				   <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意：请保证数据符合上传数据规则及数据准确性，如果出现与名单表中存在数据重复或者上传数据中有多条重复数据，则系统自动删除上传数据中的重复数据!</p> 
+				 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;导入时间为每月4日-27日,其余时间禁止导入！</p>
+                          				    
+				</div>
+              <table cellpadding="0" cellspacing="0" class="threeCol" id="">
+					<tr>
+						<td class = "label"><span class="starlist">选择导入文件</span>：</td>
+						<td ><input type="file" jwcid="FILE_PATH@Upload" file="ognl:page.file" desc="导入文件"  class='txt'/></td>
+						<td ><input type="submit" jwcid="importVipinfo@Submit" value="导入校验" class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'" listener="ognl:page.listeners.importSchedules" onclick="return doBeforeImportVipinfo()"/></td>
+						<td ><input type="submit" id="conTrade" value="批次号"  class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'" onclick="Cs.Ajax.register('geneSeqOk',function(node){$('SUBSCRIBE_ID').value=node.getAttribute('SUBSCRIBE_ID');});Cs.Ajax.swallowXml('','geneSequenceId');return false;"/>
+						<input type="text"  jwcid="SUBSCRIBE_ID@TextField"  value="ognl:subsribe_id" disabled=true  checkdata="isdigit,maxlength=18" style="width:150px"class='txt' required="true"/><!--<input class="txt" type="text" jwcid="@Any" id="SUBSCRIBE_ID" disabled="disabled" required="true"  desc="批次号" />--></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+					
+			
+		<div class="btnArea"> 
+    	    <input type="button" id="submitTrade" value="提交"  class="btn2"  onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'"  onclick="doSubmit()"/>
+      		<input type="submit" jwcid="resetTrade@Submit" value="重置"  class="btn2"   onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" listener="ognl:page.listeners.initMobTrade" onclick="if(window.confirm('确定清除所有数据吗？')){Cs.ctrl.Web.showInfo('重置界面，请稍候......');}else{return false;}" />    
+	    </div>  
+	</form></div>
+
+	
+
+ </body>
+</html>

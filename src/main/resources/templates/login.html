@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title> new document </title>
+  <meta name="generator" content="editplus" />
+  <meta name="author" content="" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta charset="UTF-8"/>
+ </head>
+
+<style type="text/css">
+.header{
+    background-color: #FFFFFF;
+    background-image: url(image/logo.jpg);
+    background-position: 0px center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+	z-index:999;
+
+}
+.header h1{
+
+	color:blue;
+	font-family:微软雅黑;
+}
+.header h1:hover{
+	color:red;
+
+}
+tr{
+	width:100px;
+	height:30px;
+}	
+.td1{
+	width:70px;
+	height:30px;
+}
+.td2{
+	width: 337px;
+    height: 30px;
+}
+.submit-button{
+	position: relative;
+    left: 12px;
+}
+.delete-button{
+	position: relative;
+    left: 16px;
+}
+</style>
+ <body>
+	<div class="header">
+		<h1 align="center"> 一证五户营业查询系统</h1>
+	</div>
+	<hr style="height:6px;font-size: 1px;background-color:#D6000F;overflow: hidden;">
+	</hr>
+	<div>
+		<table border="1px solid #000" align="center" >
+			<form action = "checksystem" >
+				<tr>
+					<td class="td1">证件号码</td>
+					<td class="td2">
+						<input name="PSPT_ID" type="text" class="userid" style="width:250px;height:25px;"/>
+						<input class="submit-button" type="submit" value="查询" href="javacript:void(0)"/>
+					</td>
+				</tr>
+				<tr>
+					<td class="td1">用户号码</td>
+					<td class="td2">
+						<input name="USER_ID" type="text" class="userid" style="width:250px;height:25px;" />
+						<input class="submit-button" type="submit" value="查询" href="javacript:void(0)" />
+					</td>
+				</tr>
+				<tr>
+					<td class="td1">
+						更新信息
+					</td>
+					<td class="td2">
+						<input name = "updateinformation" type="text" class="userid" style="width:250px;height:25px;" />
+						<input class ="submit-button" type="submit" value="更新" href="javacript:void(0)" />
+					</td>
+				</tr>
+			</form>
+		</table>
+	</div>
+ </body>
+</html>

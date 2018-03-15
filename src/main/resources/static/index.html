@@ -1,0 +1,739 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+<style type="text/css">
+<!--
+.STYLE1 {
+	font-family: "宋体";
+	font-size: 16px;
+	color: #FF0000;
+	
+}
+.STYLE2 {color: #333333}
+.STYLE3 {font-size: 16}
+.STYLE4 {color: #999999}
+#Layer1 {
+	position:absolute;
+	width:955px;
+	height:115px;
+	z-index:1;
+}
+.STYLE6 {
+	font-size: 36px;
+	color: #FF0000;
+	font-weight: bold;
+}
+.STYLE7 {font-size: 16px}
+-->
+.tr-box{
+	width:200px;
+	height:15px;
+}
+.content{
+	padding:20px;
+	margin:10px;
+}
+</style>
+</head>
+
+<body>
+ 
+ <table width="914" border="0">
+  <tr>
+    <td><div align="left"><img src="联通logo.jpg" width="499" height="105" /><span class="STYLE6">一证五户查询系统</span></div></td>
+  </tr>
+  <tr bgcolor="#FF0000">
+  <td width="908" bgcolor="#FF0000" bordercolor="#FF0000">  </td>
+  </tr>
+</table>
+
+
+<h5 ><span class="STYLE1" >●<span class="STYLE2"   >查询区</span></span></h5>
+<div id="select-option-query">
+	<table  background="淡蓝色 (2).jpg"align="left" width="536" border="0" >
+	  <tr>
+		<td width="92" ><div align="center"><span class="STYLE3">查询方式</span></div></td>
+			<td width="133">
+			  <div align="left">
+				<select name="method" size="1" >  
+				  <option value="证件号码" selected>--证件号码--
+				  <option value="用户号码" >--用户号码--       
+				  
+				</select>
+			</div></td>
+		<td width="239" height="27" ><span class="STYLE4"></span>
+		<input type="text" name="userID" size="30" maxlenth="30"></td>
+		<td width="54">
+		 <input  type="button" name="查询" value="查询"/></td>
+	  </tr>
+	</table>
+</div>
+<div id="queryuserid">
+		<table  background="淡蓝色 (2).jpg" style="box-shadow:1px 1px 1px 0px;">
+			<!-- <form action="findall"> -->
+				<tr class="tr-box">
+					<td class="td1">
+						用户ID
+					</td>
+					<td  style="width:389px;height:25px;">
+						<input class = "USER_ID_input" name = "USER_ID"  id="btnShow" type = "text" v-model="message" style ="width:180px;height:25px;" required="required" placeholder="请输入用户ID"  />
+					  
+						<input style="position:relative;left:30px;" v-on:click="query" class="submit-button" type="submit" value="查询信息" href="javacript:void(0)"/>
+					
+						<!-- <button v-on:click="query" class="btn btn-default">查询</button> -->
+					</td>
+				</tr>
+			<!-- </form> -->
+		</table>
+	</div>
+	
+	<div class="findinforamtion-all">
+		<div class = "findallusernum" id="querypsptid">
+			<table background="淡蓝色 (2).jpg" style="box-shadow:1px 1px 1px 0px;">
+				<tr class="tr-box">
+					<td class="td1">
+						证件号码
+					</td>
+					<td style="width:389px;height:25px;">
+							<input name="PSPT_ID" type="text" class="userid" v-model="message2" style="width:180px;height:25px;" required="required" placeholder="请输入用户ID"/>
+							<input style="position:relative;left:18px;"  v-on:click="query2" class="submit-button" type="submit" value="查询用户ID" href="javacript:void(0)"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class = "findalluserinfo" id="querypsptid-all">
+			<table  background="淡蓝色 (2).jpg" style="box-shadow:1px 1px 1px 0px;">
+				<tr class="tr-box">
+					 <td class="td1">
+						证件号码
+					</td>
+					<td style="width:389px;height:25px;">
+							<input name="PSPT_ID" type="text" class="userid" v-model="message3" style="width:180px;height:25px;" required="required" placeholder="请输入用户证件号码"/>
+							<input style="position:relative;left:2px;"  v-on:click="query3" class="submit-button" type="submit" value="查询所有用户信息" href="javacript:void(0)"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class = "findallserialnum" id="queryserial-all">
+			<table  background="淡蓝色 (2).jpg" style="box-shadow:0px 1px 1px 0px;">
+				<tr class="tr-box">
+					<td class="td1">
+						证件号码
+					</td>
+					<td style="width:389px;height:25px;">
+							<input name="PSPT_ID" type="text" class="userid" v-model="message4" style="width:180px;height:25px;" required="required" placeholder="请输入用户证件号码"/>
+							<input style="position:relative;left:18px;"  v-on:click="query4" class="submit-button" type="submit" value="查询用户号码" href="javacript:void(0)"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+<p>&nbsp;</p>
+<hr color="#FF0000" style="background-color:#FF0000" size="1"/>
+
+<h5 align="left"  ><span class="STYLE1" >●<span class="STYLE2"  >浏览区</span></span></h5>
+<div align="left" class="content">
+  <table width="1000" height="212" align="left">
+    <tr bgcolor="#CCCCCC">
+      <td width="26" bgcolor="#FFFFFF"><div align="left"></div></td>
+      <td width="137"><div align="center"><span class="STYLE7">用户ID</span></div></td>
+      <td width="215"><div align="center"><span class="STYLE7">证件号码/客户ID</span></div></td>
+      <td width="171"><div align="center"><span class="STYLE7">用户号码</span></div></td>
+      <td width="109"><div align="center"><span class="STYLE7">证件类别号/证件类型</span></div></td>
+      <td width="134"><div align="center"><span class="STYLE7">用户姓名/分区标识</span></div></td>
+      <td width="92"><div align="center"><span class="STYLE7">状态码</span></div></td>
+    </tr>
+    
+    <tr bgcolor="#CCFFFF">
+      <td>
+        <div align="left">
+          <input type="checkbox" name="feel" value="box" class ="check-delete"/>
+        </div>
+	  </td>
+      <td>&nbsp;<input type="text" id="td1" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td2" style="width:150px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td3" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td4" style="width:100px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td5" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td6" style="width:92px;height:15px;"/></td>
+    </tr>
+    <tr bgcolor="#CCFFFF">
+      <td>
+        <div align="left">
+          <input type="checkbox" name="feel" value="box" class ="check-delete"/>
+        </div>
+	  </td>
+      <td>&nbsp;<input type="text" id="td7" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td8" style="width:150px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td9" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td10" style="width:100px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td11" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td12" style="width:92px;height:15px;"/></td>
+    </tr>
+    <tr bgcolor="#CCFFFF">
+      <td>
+        <div align="left">
+          <input type="checkbox" name="feel" value="box" class ="check-delete"/>
+        </div>
+	  </td>
+      <td>&nbsp;<input type="text" id="td13" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td14" style="width:150px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td15" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td16" style="width:100px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td17" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td18" style="width:92px;height:15px;"/></td>
+    </tr>
+    <tr bgcolor="#CCFFFF">
+      <td>
+        <div align="left">
+          <input type="checkbox" name="feel" value="box" class ="check-delete"/>
+        </div>
+	  </td>
+      <td>&nbsp;<input type="text" id="td19" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td20" style="width:150px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td21" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td22" style="width:100px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td23" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td24" style="width:92px;height:15px;"/></td>
+    </tr>
+    <tr bgcolor="#CCFFFF">
+      <td>
+        <div align="left">
+          <input type="checkbox" name="feel" value="box" class ="check-delete"/>
+        </div>
+	  </td>
+      <td>&nbsp;<input type="text" id="td25" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td26" style="width:150px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td27" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td28" style="width:100px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td29" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td30" style="width:92px;height:15px;"/></td>
+    </tr>
+    <tr bgcolor="#CCFFFF">
+      <td>
+        <div align="left">
+          <input type="checkbox" name="feel" value="box" class ="check-delete"/>
+        </div>
+	  </td>
+      <td>&nbsp;<input type="text" id="td31" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td32" style="width:150px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td33" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td34" style="width:100px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td35" style="width:120px;height:15px;"/></td>
+      <td>&nbsp;<input type="text" id="td36" style="width:92px;height:15px;"/></td>
+    </tr>
+  </table>
+</div>
+<br>
+<div class="nav-area">
+	<table width="200"  height="212"border="0">
+	  <tr>
+		<td height="208">&nbsp;</td>
+	  </tr>
+	</table>
+</div>
+<div class= "handle">
+	<h5><span class="STYLE1" >●<span class="STYLE2"   >操作区</span></span></h5>
+<hr color="#FF0000" style="background-color:#FF0000" size="1"/>
+	<table width="517" height="69" border="0" align="center">
+	  <tr bgcolor="#CCCCCC">
+		<td width="52" bgcolor="#FFFFFF"><div align="left"></div></td>
+		<form action = "update_status">
+		<td width="134"><div align="center"><span class="STYLE7">用户ID</span></div></td>
+		<td width="219"><div align="center"><span class="STYLE7">证件号码</span></div></td>
+		<td width="94"><div align="center"><span class="STYLE7">状态码</span></div></td>
+		
+	  </tr>
+		<tr bgcolor="#CCFFFF">
+		  <td bgcolor="#FFFFFF">
+		  <td><input  align="middle" height="23" type="text" name="USER_ID" size="18" maxlenth="10"/></td>
+		  <td><input align="middle" height="23" type="text" name="PSPT_ID" size="30" maxlenth="18"/></td>
+		  <td><input align="middle" height="23" type="text" name="STATUS" size="8" maxlenth="5"/></td>
+		</tr>
+	</table>
+		<table  width="200" border="0" align="center">
+		  <tr>
+			<td><input name="修改" type="submit" value="修改" /></form></td>
+			<td><input name="修改" type="submit" value="删除" /></td>
+		  </tr>
+		  </table>
+		  <br>
+		  <div class="delete" id="delete">
+				<table border="1px solid #000" align="center">
+					<tr bgcolor="#CCFFFF">
+						<td class="td1-delete"  bgcolor="#CCFFFF" style="width:130px;" align="center">
+							手机号码
+						</td>
+						<form action ="delete">
+							<td class="td1-delete" style="width:130px;" align="center">
+								<input name="SERIAL_NUMBER" type="text" class="userid" style="width:120px;height:15px;" required="required" placeholder="请输入用户手机号码"/>
+							</td>
+							<td style="width:130px;" align="center">
+								<input style="position:relative;left:0px;" class="submit-button" type="submit" value="删除信息" href="javacript:void(0)"/>
+							</td>
+						</form>
+					</tr>
+				</table>
+			</div>
+		<div align="center">
+		  <table width="831"  height="98"border="0">
+			<tr>
+			  <td width="825" height="94"><img src="中国联通页底.jpg" width="684" height="79" />;</td>
+			</tr>
+		  </table>
+		</div>
+	</div>
+</body>
+<script>
+/***
+	var $delete_content = function(){
+		if ($(this).attr("checked") == "checked"){
+		
+		}
+	}
+	
+	function delete-information(){
+	
+	}
+	$(document).ready(function(){ 
+		$(".check-delete").click($delete_content); 
+	} 
+***/
+	//ajax查询
+	new Vue({
+		  el: '#queryuserid',
+		  data: {
+			  message:'1000000000000001',
+			  ulist: []
+		  },
+		  methods: {
+			  query: function (event) {
+				  var _self = this;
+				$.ajax( {  
+						url:'findall',// 跳转到 action  
+						data:{  
+							USER_ID: this.message
+					
+						},  
+						type:'post',  
+						cache:false,  
+						dataType:'json',  
+						success:function(data) { 
+							_self.ulist = data;
+							console.log(_self.ulist.USER_ID);
+							console.log(_self.ulist.PSPT_ID);
+							$("#checkout").val("1234");
+							$("#td1").val(_self.ulist.USER_ID);
+							$("#td2").val(_self.ulist.PSPT_ID);
+							$("#td3").val(_self.ulist.SERIAL_NUMBER);
+							$("#td4").val(_self.ulist.PSPT_TYPE_CODE);
+							$("#td5").val(_self.ulist.CUST_NAME);
+							$("#td6").val(_self.ulist.STATUS);
+							console.log(data);
+							
+						 },  
+						 error : function(data) {  
+							  // view("异常！");  
+							  alert("异常！");  
+						 }  
+					})
+			   }
+		  }
+	})
+
+	new Vue({
+		  el: '#querypsptid',
+		  data: {
+			  message2:'230103000000000001',
+			  ulist: []
+		  },
+		  methods: {
+			  query2: function (event) {
+				  var _self = this;
+				$.ajax( {  
+						url:'finduser',// 跳转到 action  
+						data:{  
+							PSPT_ID: this.message2
+					
+						},  
+						type:'post',  
+						cache:false,  
+						dataType:'json',  
+						success:function(data) { 
+							_self.ulist = data;
+							var data0 = data[0];
+							var data1 = data[1];
+							var data2 = data[2];
+							var data3 = data[3];
+							var data4 = data[4];
+							var data5 = data[5];
+							
+							//_self.ulist = data;
+							console.log(_self.ulist.USER_ID);
+							console.log(_self.ulist.PSPT_ID);
+							//$("#checkout").val("1234");
+							$("#td1").val(data0);
+							$("#td7").val(data1);
+							$("#td13").val(data2);
+							$("#td19").val(data3);
+							$("#td25").val(data4);
+							$("#td31").val(data5);
+							//$("#td7").val((_self.ulist).0);
+							/**
+							$("#td8").val(_self.ulist.PSPT_ID);
+							$("#td9").val(_self.ulist.SERIAL_NUMBER);
+							$("#td10").val(_self.ulist.PSPT_TYPE_CODE);
+							$("#td11").val(_self.ulist.CUST_NAME);
+							$("#td12").val(_self.ulist.STATUS);
+							**/
+							//console.log(_self.ulist.USER_ID);
+							//console.log(_self.ulist.PSPT_ID); 
+							//console.log(data);
+						/**
+						    $("#checkout").val("1234");
+							$("#td7").val(_self.ulist.USER_ID);
+							$("#td8").val(_self.ulist.PSPT_ID);
+							$("#td9").val(_self.ulist.SERIAL_NUMBER);
+							$("#td10").val(_self.ulist.PSPT_TYPE_CODE);
+							$("#td11").val(_self.ulist.CUST_NAME);
+							$("#td12").val(_self.ulist.STATUS);
+							console.log(data); 
+						***/
+						 },  
+						 error : function(data) {  
+							  // view("异常！");  
+							  alert("异常！");  
+						 }  
+					})
+			   }
+		  }
+	})
+
+		
+		new Vue({
+			  el: '#querypsptid-all',
+			  data: {
+				  message3:'230103000000000001',
+				  ulist: []
+			  },
+			  methods: {
+				  query3: function (event) {
+					  var _self = this;
+					$.ajax( {  
+							url:'findallinfo',// 跳转到 action  
+							data:{  
+								PSPT_ID: this.message3
+						
+							},  
+							type:'post',  
+							cache:false,  
+							dataType:'json',  
+							success:function(data) { 
+								_self.ulist = data;
+								console.log(data);
+								console.log(_self.ulist.get0);
+								
+								//var vendorJson = eval(result.vendor);
+								//$("#td7").val(vendorJson[0].name)
+								//$.each(data,function(index, n){
+     								//str=str+data[index].webName+","+data[index].url+","+data[index].age+"<br/>";
+     								var data0 = data[0];
+     								var data1 = data[1];
+     								var data2 = data[2];
+     								var data3 = data[3];
+     								var data4 = data[4];
+     								var data5 = data[5];
+     								/***
+     								var user_id=new array();
+     								var user_pspt_id=new array() ;
+     								var SERIAL_NUMBER=new array();
+     								var STATUS =new array();
+     								var PSPT_TYPE_CODE =new array();
+     								var CUST_NAME =new array();
+     								***/
+     								/**
+     								for(var i=0;i<data.length;i++){
+     									
+     									var datauser_id = data[i].USER_ID;
+     									var 
+     									/**
+     									var user_pspt_id[i] = data[i].PSPT_ID;
+         								var SERIAL_NUMBER[i] = data[i].SERIAL_NUMBER;
+         								var STATUS[i] = data[i].STATUS;
+         								var PSPT_TYPE_CODE[i] = data[i].PSPT_TYPE_CODE;
+         								var CUST_NAME[i] = data[i].CUST_NAME;
+         								
+     								}
+     								**/
+     								var user_id0 = data0.USER_ID;
+     								var user_pspt_id0 = data0.PSPT_ID;
+     								var SERIAL_NUMBER0 = data0.SERIAL_NUMBER;
+     								var STATUS0 = data0.STATUS;
+     								var PSPT_TYPE_CODE0 = data0.PSPT_TYPE_CODE;
+     								var CUST_NAME0 = data0.CUST_NAME;
+     								$("#td7").val(user_id0);
+     								$("#td8").val(user_pspt_id0);
+     								$("#td9").val(SERIAL_NUMBER0);
+     								$("#td10").val(PSPT_TYPE_CODE0);
+     								$("#td11").val(CUST_NAME0);
+     								$("#td12").val(STATUS0);
+     								
+     								var user_id1 = data1.USER_ID;
+     								var user_pspt_id1 = data1.PSPT_ID;
+     								var SERIAL_NUMBER1 = data1.SERIAL_NUMBER;
+     								var STATUS1 = data1.STATUS;
+     								var PSPT_TYPE_CODE1 = data1.PSPT_TYPE_CODE;
+     								var CUST_NAME1 = data1.CUST_NAME;
+     								$("#td13").val(user_id1);
+     								$("#td14").val(user_pspt_id1);
+     								$("#td15").val(SERIAL_NUMBER1);
+     								$("#td16").val(PSPT_TYPE_CODE1);
+     								$("#td17").val(CUST_NAME1);
+     								$("#td18").val(STATUS1);
+     								
+     								var user_id2 = data2.USER_ID;
+     								var user_pspt_id2 = data2.PSPT_ID;
+     								var SERIAL_NUMBER2 = data2.SERIAL_NUMBER;
+     								var STATUS2 = data2.STATUS;
+     								var PSPT_TYPE_CODE2 = data2.PSPT_TYPE_CODE;
+     								var CUST_NAME2 = data2.CUST_NAME;
+     								$("#td19").val(user_id2);
+     								$("#td20").val(user_pspt_id2);
+     								$("#td21").val(SERIAL_NUMBER2);
+     								$("#td22").val(PSPT_TYPE_CODE2);
+     								$("#td23").val(CUST_NAME2);
+     								$("#td24").val(STATUS2);
+     								
+     								var user_id3 = data3.USER_ID;
+     								var user_pspt_id3 = data3.PSPT_ID;
+     								var SERIAL_NUMBER3 = data3.SERIAL_NUMBER;
+     								var STATUS3= data3.STATUS;
+     								var PSPT_TYPE_CODE3 = data3.PSPT_TYPE_CODE;
+     								var CUST_NAME3 = data3.CUST_NAME;
+     								$("#td25").val(user_id3);
+     								$("#td26").val(user_pspt_id3);
+     								$("#td27").val(SERIAL_NUMBER3);
+     								$("#td28").val(PSPT_TYPE_CODE3);
+     								$("#td29").val(CUST_NAME3);
+     								$("#td30").val(STATUS3);
+     								
+     								var user_id4 = data4.USER_ID;
+     								var user_pspt_id4 = data4.PSPT_ID;
+     								var SERIAL_NUMBER4 = data4.SERIAL_NUMBER;
+     								var STATUS4= data4.STATUS;
+     								var PSPT_TYPE_CODE4 = data4.PSPT_TYPE_CODE;
+     								var CUST_NAME4 = data4.CUST_NAME;
+     								$("#td31").val(user_id4);
+     								$("#td32").val(user_pspt_id4);
+     								$("#td33").val(SERIAL_NUMBER4);
+     								$("#td34").val(PSPT_TYPE_CODE4);
+     								$("#td35").val(CUST_NAME4);
+     								$("#td36").val(STATUS4);
+     								
+     								var user_id5 = data5.USER_ID;
+     								var user_pspt_id5 = data5.PSPT_ID;
+     								var SERIAL_NUMBER5 = data5.SERIAL_NUMBER;
+     								var STATUS5= data5.STATUS;
+     								var PSPT_TYPE_CODE5 = data5.PSPT_TYPE_CODE;
+     								var CUST_NAME5 = data5.CUST_NAME;
+     								$("#td37").val(user_id5);
+     								$("#td38").val(user_pspt_id5);
+     								$("#td39").val(SERIAL_NUMBER5);
+     								$("#td40").val(STATUS5);
+     								$("#td41").val(CUST_NAME5);
+     								$("#td42").val(PSPT_TYPE_CODE5);
+     								
+     								
+    							//});
+
+								//$("#td8").val(_self.ulist.0);
+								//$("#td9").val(_self.ulist.0);
+								//$("#td10").val(_self.ulist.0);
+								//$("#td11").val(_self.ulist.0);
+								//$("#td12").val(_self.ulist.0);
+								//console.log(_self.ulist.USER_ID);
+								//console.log(_self.ulist.PSPT_ID); 
+								//console.log(data);
+							/**
+							    $("#checkout").val("1234");
+								$("#td7").val(_self.ulist.USER_ID);
+								$("#td8").val(_self.ulist.PSPT_ID);
+								$("#td9").val(_self.ulist.SERIAL_NUMBER);
+								$("#td10").val(_self.ulist.PSPT_TYPE_CODE);
+								$("#td11").val(_self.ulist.CUST_NAME);
+								$("#td12").val(_self.ulist.STATUS);
+								console.log(data); 
+							***/
+							 },  
+							 error : function(data) {  
+								  // view("异常！");  
+								  alert("异常！");  
+							 }  
+						})
+				   }
+			  }
+		})
+
+		new Vue({
+		  el: '#queryserial-all',
+		  data: {
+			  message4:'230103198709230700',
+			  ulist: []
+		  },
+		  methods: {
+			  query4: function (event) {
+				  var _self = this;
+				$.ajax( {  
+						url:'finduserSerialNum',// 跳转到 action  
+						data:{  
+							PSPT_ID: this.message4
+					
+						},  
+						type:'post',  
+						cache:false,  
+						dataType:'json',  
+						success:function(data) {
+							/*****
+							var data0 = data[0];
+							var data1 = data[1];
+							var data2 = data[2];
+							var data3 = data[3];
+							var data4 = data[4];
+							var data5 = data[5];
+							
+							//_self.ulist = data;
+							console.log(_self.ulist.USER_ID);
+							console.log(_self.ulist.PSPT_ID);
+							//$("#checkout").val("1234");
+							$("#td3").val(data0);
+							$("#td9").val(data1);
+							$("#td15").val(data2);
+							$("#td21").val(data3);
+							$("#td27").val(data4);
+							$("#td33").val(data5);
+							console.log(data);
+							****/
+							var data0 = data[0];
+								var data1 = data[1];
+								var data2 = data[2];
+								var data3 = data[3];
+								var data4 = data[4];
+								var data5 = data[5];
+								/***
+								var user_id=new array();
+								var user_pspt_id=new array() ;
+								var SERIAL_NUMBER=new array();
+								var STATUS =new array();
+								var PSPT_TYPE_CODE =new array();
+								var CUST_NAME =new array();
+								***/
+								/**
+								for(var i=0;i<data.length;i++){
+									
+									var datauser_id = data[i].USER_ID;
+									var 
+									/**
+									var user_pspt_id[i] = data[i].PSPT_ID;
+ 								var SERIAL_NUMBER[i] = data[i].SERIAL_NUMBER;
+ 								var STATUS[i] = data[i].STATUS;
+ 								var PSPT_TYPE_CODE[i] = data[i].PSPT_TYPE_CODE;
+ 								var CUST_NAME[i] = data[i].CUST_NAME;
+ 								
+								}
+								**/
+								var user_id0 = data0.USER_ID;
+								var user_pspt_id0 = data0.CUST_ID;
+								var SERIAL_NUMBER0 = data0.SERIAL_NUMBER
+								var STATUS0 = data0.REMOVE_TAG;
+								var PSPT_TYPE_CODE0 = data0.TYPECODE;
+								var CUST_NAME0 = data0.PARTITION_ID;
+								$("#td7").val(user_id0);
+								$("#td8").val(user_pspt_id0);
+								$("#td9").val(SERIAL_NUMBER0);
+								$("#td10").val(PSPT_TYPE_CODE0);
+								$("#td11").val(CUST_NAME0);
+								$("#td12").val(STATUS0);
+								
+								var user_id1 = data1.USER_ID;
+								var user_pspt_id1 = data1.CUST_ID;
+								var SERIAL_NUMBER1 = data1.SERIAL_NUMBER;
+								var STATUS1 = data1.REMOVE_TAG;
+								var PSPT_TYPE_CODE1 = data1.TYPECODE;
+								var CUST_NAME1 = data1.PARTITION_ID;
+								$("#td13").val(user_id1);
+								$("#td14").val(user_pspt_id1);
+								$("#td15").val(SERIAL_NUMBER1);
+								$("#td16").val(PSPT_TYPE_CODE1);
+								$("#td17").val(CUST_NAME1);
+								$("#td18").val(STATUS1);
+								
+								var user_id2 = data2.USER_ID;
+								var user_pspt_id2 = data2.CUST_ID;
+								var SERIAL_NUMBER2 = data2.SERIAL_NUMBER;
+								var STATUS2 = data2.REMOVE_TAG;
+								var PSPT_TYPE_CODE2 = data2.TYPECODE;
+								var CUST_NAME2 = data2.PARTITION_ID;
+								$("#td19").val(user_id2);
+								$("#td20").val(user_pspt_id2);
+								$("#td21").val(SERIAL_NUMBER2);
+								$("#td22").val(PSPT_TYPE_CODE2);
+								$("#td23").val(CUST_NAME2);
+								$("#td24").val(STATUS2);
+								
+								var user_id3 = data3.USER_ID;
+								var user_pspt_id3 = data3.CUST_ID;
+								var SERIAL_NUMBER3 = data3.SERIAL_NUMBER;
+								var STATUS3= data3.REMOVE_TAG;
+								var PSPT_TYPE_CODE3 = data3.TYPECODE;
+								var CUST_NAME3 = data3.PARTITION_ID;
+								$("#td25").val(user_id3);
+								$("#td26").val(user_pspt_id3);
+								$("#td27").val(SERIAL_NUMBER3);
+								$("#td28").val(PSPT_TYPE_CODE3);
+								$("#td29").val(CUST_NAME3);
+								$("#td30").val(STATUS3);
+								
+								var user_id4 = data4.USER_ID;
+								var user_pspt_id4 = data4.CUST_ID;
+								var SERIAL_NUMBER4 = data4.SERIAL_NUMBER;
+								var STATUS4= data4.REMOVE_TAG;
+								var PSPT_TYPE_CODE4 = data4.TYPECODE;
+								var CUST_NAME4 = data4.PARTITION_ID;
+								$("#td31").val(user_id4);
+								$("#td32").val(user_pspt_id4);
+								$("#td33").val(SERIAL_NUMBER4);
+								$("#td34").val(PSPT_TYPE_CODE4);
+								$("#td35").val(CUST_NAME4);
+								$("#td36").val(STATUS4);
+								
+								var user_id5 = data5.USER_ID;
+								var user_pspt_id5 = data5.CUST_ID;
+								var SERIAL_NUMBER5 = data5.SERIAL_NUMBER
+								var STATUS5= data5.REMOVE_TAG;
+								var PSPT_TYPE_CODE5 = data5.TYPECODE;
+								var CUST_NAME5 = data5.PARTITION_ID;
+								$("#td37").val(user_id5);
+								$("#td38").val(user_pspt_id5);
+								$("#td39").val(SERIAL_NUMBER5);
+								$("#td40").val(STATUS5);
+								$("#td41").val(CUST_NAME5);
+								$("#td42").val(PSPT_TYPE_CODE5);
+							
+						 },  
+						 error : function(data) {  
+							  // view("异常！");  
+							  alert("异常！");  
+						 }  
+					})
+			   }
+		  }
+	})
+</script>
+</html>

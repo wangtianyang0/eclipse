@@ -1,0 +1,28 @@
+spring: 
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin://127.0.0.1:1521/SKYWORK
+    username: scott
+    password: TIGER
+    
+  jpa:
+     hibernate:
+       ddl-auto: create
+     show-sql: true 
+     
+  redis:
+      database: 0
+      host: localhost
+      password:
+      port: 6379
+      pool:
+          max-idle: 8
+          min-idle: 0
+          max-active: 10
+          max-wait: -1   
+#  mvc:  
+#    view:  
+#       suffix: .jsp 
+#  resources:  
+#      static-locations: classpath:/WEB-INF/resources/ 
+

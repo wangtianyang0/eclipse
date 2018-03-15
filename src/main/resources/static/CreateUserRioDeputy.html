@@ -1,0 +1,1413 @@
+<span jwcid="myScript@Block"> 
+	<script type="text/javascript" src="/scripts-custserv/core/PageFlow.js"></script>
+	<script type="text/javascript" src="/scripts-custserv/core/LayoutHelper.js"></script>
+	<script type="text/javascript" src="/scripts-custserv/core/Light.js"></script>
+	<script type="text/javascript" src="/scripts-custserv/core/Product.js"></script>
+	<script type="text/javascript" src="/scripts-custserv/core/AssureInfo.js"></script>
+	<script type="text/javascript" jwcid="@Any" src="ognl:scriptRoot+'/app/personalserv/createuser/CreateUserRioDeputy.js'"></script>
+	<script type="text/javascript" jwcid="@Any" src="ognl:scriptRoot+'/app/personalserv/createuser/CreateUserOtherRioDeputy.js'"></script>
+	<script type="text/javascript" jwcid="@Any" src="ognl:scriptRoot+'/app/popupdialog/PopMobileInfo.js'"></script>
+	<script type="text/javascript" jwcid="@Any" src="ognl:scriptRoot+'/app/pub/resInfo/ResInfo.js'"></script>
+	<style type="text/css">
+	    #preposingInfo .c_content td{border:0px;}
+	</style> 
+</span>
+<div jwcid="@cs:BaseTrade" title="新装开户" getSysDate=true childHeadBlock='ognl:components.myScript'>
+
+	<span jwcid="@flower:Tipster" style="width:50em" type="docTip" doc="docTipLayer"/>
+	<!--content 开始-->
+    <div class="c_content" >
+        <!-- 操作流程提示  开始-->
+	    <div class="processHint e_clearfix">
+	         <div class="process">
+	              <ul class="e_clearfix">
+                     <li class="first">开户流程：</li>
+	                 <li id="flowImage0" class="currPro"><a href="javascript:void(0)">活动选择</a></li>
+                     <li id="flowImage1"><a href="javascript:void(0)">产品定制</a></li>
+                     <li id="flowImage2"><a href="javascript:void(0)">信息录入</a></li>
+                     <li id="flowImage3"><a href="javascript:void(0)">费用收取</a></li>
+	              </ul>
+	         </div>
+	         <div class="processInfo">
+	            <input type="Hidden" id="custId" value="" />
+                <ul class="e_clearfix"> 
+                 <li class="userName"><span id="custName" class="orange"></span></li>
+                 <li><span id="psptType"></span>：</li>
+                 <li><span id="psptId"></span></li>
+                </ul>
+             </div>
+	    </div>
+	    <div id="personDiv">
+		     <div class="e_title">客户信息</div>
+				<table>
+                    <tr>
+                    	<td class="label">客户名称:</td>
+                    	<td ><input type="text" id="custNameS" value="" disabled="true" class="txt"/></td>	
+                    	<td class="label">证件类型:</td>
+                    	<td ><input type="text" id="psptTypeS" value="" disabled="true" class="txt"/></td>		
+                    	<td class="label">证件号码:</td>
+                    	<td ><input type="text" id="psptIdS" value="" disabled="true" class="txt"/></td>
+                    	<td class="label">客户证件地址:</td>
+                    	<td><input type="text" id="psptAddrS" value="" disabled="true" class="txt"/></td>	
+                    </tr>
+             <!--助销系统 sunfw7 开始-->
+                     <tr id="preTradeInfo1" style="display:none">
+                    	<input id="orderId" value="" type="hidden"/>                  
+                    	<td class="label">预选手机号:</td>
+                    	<td><input type="text" id="preSerialNumber" value="" disabled="true" class="txt"/></td>
+                    	<td class="label">预选产品编码:</td>
+                    	<td><input type="text" id="preProductId" value="" disabled="true" class="txt"/></td>
+                    	<td class="label">预选产品:</td>
+                    	<td><input type="text" id="preProductName" value="" disabled="true" class="txt"/></td>
+                    	<td class="label">预选活动产品编码:</td>
+                    	<td><input type="text" id="preProductIdA" value="" disabled="true" class="txt"/></td>                    	
+                    </tr>	
+                    <tr id="preTradeInfo2" style="display:none">	
+                    	<td class="label">预选活动编码:</td>
+                    	<td><input type="text" id="preProductTypeCode" value="" disabled="true" class="txt"/></td>
+                    	<td class="label">预选活动:</td>
+                    	<td><input type="text" id="preProductTypeName" value="" disabled="true" class="txt"/></td>   
+                    	<td class="label">预选终端信息:</td>
+                    	<td><input type="text" id="preDeviceName" value="" disabled="true" class="txt" /></td> 
+                    	<td class="label" >订单发展人信息:</td>
+                    	<td ><input type="text" id="developStaffId" value="" disabled="true" class="txt" /></td>
+                    	<td style="display:none"><input type="text" id="staffName" value="" disabled="true" class="txt" /></td>
+                    </tr>
+             <!--助销系统 sunfw7 结束-->
+				</table>    
+		 </div>
+	    <!-- 操作流程提示  结束-->
+        <!--步骤阶段  开始-->
+        <div id="title" class="stepTitle"></div>
+        <div class="step">
+            <form jwcid="@Form" class="stepBtn">  
+                <!-- tfs:282985 add by xingxy17 begin -->      
+                <input jwcid="CS_CREATEUSER_FIRSTDISCNT@TextField" value="ognl:tradeInfo.CS_CREATEUSER_FIRSTDISCNT" style="display:none"/>
+                <!-- tfs:282985 end --> 
+                
+                <!-- TAXIUWA BEGIN -->
+                <input name="LOW_COST"  id="LOW_COST" type="hidden" value="" encode=false/>   
+                <!-- TAXIUWA END -->
+				<!-- TFS：250697 hl-yangcc21 Begin 认证方式校验 -->
+				<input jwcid="NO_AUTHENTICATION_CHECK@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_NO_AUTHENTI_CHECK_TAG', 'TAG_CHAR', '')" style ="display:none"/>   
+				<input jwcid="CHECK_AUTHENTICATION_RIGHT@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_CHECK_AUTHENTI_RIGHT_TAG', 'TAG_CHAR', '0')" style ="display:none"/>
+				<!-- TFS：250697 hl-yangcc21 End 认证方式校验 -->
+     			<input jwcid="authenticationRight@Hidden"  type="hidden" value="ognl:page.authenticationRight" encode=false/>
+                <input name = "JTHM_CODE" id="JTHM_CODE" value="" style="display:none"/>
+                <!--add by bais 0908  -->	
+                <input name = "strNnumberSelection" id="strNnumberSelection" value="" style="display:none"/>
+                <!--add end   --> 
+                <!-- tfs:49102 add by zyj BEGIN --> 
+                <input name = "NUMBER_SRC" id="NUMBER_SRC" value="" style="display:none"/>
+                <input name = "NUMBER_TYPE" id="NUMBER_TYPE" value="" style="display:none"/>
+                <input name = "NUM_THAW_PRO" id="NUM_THAW_PRO" value="" style="display:none"/>
+                <input name = "FIRST_MONTH_AMOUNT" id="FIRST_MONTH_AMOUNT" value="" style="display:none"/>
+                <input name = "END_MONTH_AMOUNT" id="END_MONTH_AMOUNT" value="" style="display:none"/>
+                <!-- tfs:49102 add by zyj END -->
+                <input jwcid="RIGHT_CODE@Hidden"  type="hidden" value="ognl:tradeInfo.RIGHT_CODE" encode=false/>
+                 
+                <input jwcid="IS_GROUP_STAFF@Hidden"  type="hidden" value="ognl:tradeInfo.IS_GROUP_STAFF" encode=false/>
+                <a id="ChangeWoWallet" style="display:none">沃账户开通及服务变更</a>
+                <input jwcid="provinceCode@Hidden"  type="hidden" value="ognl:tradeInfo.provinceCode" encode=false/>   
+                <input jwcid="isAgent@Hidden"  type="hidden" value="ognl:tradeInfo.isAgent" encode=false/>      
+				<!-- qc:33688 begin-->
+				<input jwcid="CS_NET_AGE@TextField" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_NET_AGE', 'TAG_INFO', '')" style="display:none"/>
+				<input jwcid="CS_NEEDPOSTTAG@TextField" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_NEEDPOSTTAG', 'TAG_INFO', '')" style="display:none"/>
+				<!-- qc:33688 end-->
+				<input jwcid="CS_WOWALLET_TAG@TextField" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_WOWALLET_TAG', 'TAG_INFO', '0')" style="display:none"/>
+				
+				<!--Qc:96655 begin-->
+                <input jwcid="hasModifyRight@Hidden"  type="hidden" value="ognl:tradeInfo.HAS_MODIFY_RIGHT" encode=false/>
+                <!--Qc:96655 end-->
+                <input jwcid="resetTrade@Submit" value="放弃开户" style="display:none" class="btn4" onmouseover="this.className='btn4 btnOver'" onmouseout="this.className='btn4 btnOff'" listener="ognl:listeners.initMobTrade" onclick="Cs.ctrl.Web.showInfo('重置界面，请稍候......');"/>
+                <input type="button" class="btn4" onmouseover="this.className='btn4 btnOver'" onmouseout="this.className='btn4 btnOff'" id="roallback" value="放弃开户" onclick="if(window.confirm('确定放弃开户吗？')){releaseAllRes();$('resetTrade').click();}else{return false;}"/>
+                <input type="button" class="btn3" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'" id="Previous" value="上一步"/>
+                <input type="button" class="btn3" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'" id="Next" value="下一步"/>
+                <!--wanmy5add  -->
+                <!--TFS:200682  -->
+                <input type="button" class="btn3" style="display:none;" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'" id="Fast" value="快速提交" onclick="fastSubmit()"/>                
+                
+            </form>             
+            <form jwcid="@Form" class="stepCont">
+                <input jwcid="CITY_CODE_HID@Hidden"  value="ognl:tradeInfo.CITYCODE_HID" encode=false/> 
+	            <input id="subForBat" type="hidden" name="subForBat" encode=false/>
+	            <input jwcid="SEQ_USER_ID@Hidden"  type="hidden" value="ognl:tradeInfo.SEQ_USER_ID" encode=false/>
+	            
+                <input jwcid="switchId@Hidden"  type="hidden" value="ognl:tradeInfo.SWITCH_ID" encode=false/>
+                <input jwcid="netTypeG@Hidden"  type="hidden" value="ognl:tradeInfo.NET_TYPE_CODE_G" encode=false/>
+                <input jwcid="limitOpenProductType@Hidden"  type="hidden" value="ognl:tradeInfo.LIMIT_OPEN_PRODUCTTYPE" encode=false/>
+                <input jwcid="_tradeBase@Hidden" value="ognl:page.tradeObject" encode=false/>
+                <span jwcid="_TRADE_TYPE_CODE@TextField" class="txt" value="ognl:page.tradeTypeCode" style="display:none"/>
+                <span jwcid="_all_infos@TextField" value="ognl:page.getAllInfos()" style="display:none" disabled=true/>
+                <input jwcid="MOBILE_COST@Hidden"  type="hidden" value="ognl:tradeInfo.MOBILE_COST" encode=false/>
+                <input jwcid="DEPART_LEVEL_TAG@Hidden"  type="hidden" value="ognl:tradeInfo.DEPART_LEVEL_TAG" encode=false/>                
+                <input jwcid="CARD_TYPE@Hidden"  type="hidden" value="ognl:tradeInfo.CARD_TYPE" encode=false/>
+                <input jwcid="DEVICE_TYPE_WX@Hidden"  type="hidden" value="ognl:tradeInfo.DEVICE_TYPE" encode=false/>
+                <input jwcid="DEVICE_BRAND@Hidden"  type="hidden" value="ognl:tradeInfo.DEVICE_BRAND" encode=false/>
+                <input jwcid="FEE_TYPE_CODE@Hidden"  type="hidden" value="ognl:tradeInfo.FEE_TYPE_CODE" encode=false/>
+                <input jwcid="DEVICE_NAME@Hidden"  type="hidden" value="ognl:tradeInfo.DEVICE_NAME" encode=false/>
+                <input jwcid="GROUP_DATARIGHT@Hidden"  type="hidden" value="ognl:tradeInfo.GROUP_DATARIGHT" encode=false/>
+    			<input jwcid="writeCardUrl@Hidden" value="ognl:tradeInfo.writeCardUrl" encode=false/>
+    			<input jwcid="CS_TAG_88888888@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_TAG_88888888', 'TAG_CHAR', '0')" style="display:none"/>  
+    			<!-- QC:7659 begin -->
+    			<input jwcid="CS_TAG_QC7659@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'N2_07659_TAG_CODE', 'TAG_CHAR', '1')" style="display:none"/>  
+    			<!-- QC:7659 END -->
+    			<input jwcid="CS_TAG_LIGHT@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_TAG_LIGHT', 'TAG_CHAR', '0')" style="display:none"/> 
+    			
+    			<!-- add by wangwf 2014-05-05 begin -->
+    			<input jwcid="AGENT_STAFF_FLAG@TextField" raw="true" value="ognl:tradeInfo.AGENT_STAFF_FLAG" style="display:none"/> 
+    			<input jwcid="AGENT_RIGHT_CODE@TextField" raw="true" value="ognl:tradeInfo.AGENT_RIGHT_CODE" style="display:none"/> 
+    			<!-- add by wangwf 2014-05-05 end -->                
+  				<!--QC:096295 Begin-->
+			    <input jwcid="CS_ALLOW_PATCH_BJ_BRAND@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_ALLOW_PATCH_BJ_BRAND', 'TAG_INFO', '0')" style="display:none"/> 
+			    <!--QC:096295 End-->  				
+  				<!--Qc:19065 Begin-->
+				<input jwcid="GJRM@TextField" style="display:none" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_GJRM_SALE', 'TAG_INFO', '')" /> 
+				<input jwcid="CFSF@TextField" style="display:none" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_CFSF_SALE', 'TAG_INFO', '')" />
+				<input jwcid="BACKCARD@TextField" style="display:none" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'BACKCARDFORCREATEUSER', 'TAG_CHAR', '')" />
+
+				<!--Qc:19065 End-->
+				
+				<!-- tfs 304147  山东联通固网终端管理系统与CBSS系统对接相关问题 -->
+                <input jwcid="CS_TERMINAL_TEST@Hidden" value="ognl:tradeInfo.CS_TERMINAL_TEST" encode=false />
+               
+				<!-- TFS：273182 zhaowb3 End 固网终端校验 -->
+				<input jwcid="TERMINAL_CHECK_TAG@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CHECK_TRADE_TERMINAL', 'TAG_INFO', '')" style ="display:none"/>				
+     		    <!-- TFS：273182 zhaowb3 End 固网终端校验 -->
+     		    
+     		<!-- TFS：319042 zhaowb3 End 商城固网终端校验tag -->
+				<input jwcid="CHECK_TERM_TAG@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CHECK_TERMINAL_TAG', 'TAG_INFO', '')" style ="display:none"/>				
+     		<!-- TFS：319042 zhaowb3 End 商城固网终端校验tag -->
+     		
+        		<!-- QC:19577 begin 重通业务开始 统一版本合并-->
+    			<input jwcid="QC_TAG_ZT@TextField" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'N4_IMPORTANT_CUST', 'TAG_CHAR', '0')" style="display:none"/>
+  				<input jwcid="notRemoteTag@TextField" style="display:none" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'IS_NOT_REMOTE', 'TAG_INFO', '0')" />  
+  				<!-- QC:19577 end 重通业务结束 统一版本合并-->
+  				<span jwcid="_TRANS_EPARCHY_CODE@TextField" value="ognl:page.getTransEpachyCode()" style="display:none" disabled=true/>
+                <span jwcid="LIANGHAO_TAG@Hidden"  type="hidden" value="ognl:tradeInfo.LIANGHAO_TAG" encode=false/>
+                <!-- tfs 391501 yjs 开户时验证黑名单-->
+                <span jwcid="TAG_BLACK_DEAL_OPEN@Hidden"  type="hidden" value="ognl:tradeInfo.TAG_BLACK_DEAL_OPEN" encode=false/>
+                
+				<a id="btnWriteCard" style="display:none">现场写卡</a>
+                <OBJECT id="Ocxtest" classid=clsid:43E4D4FC-3CD8-459A-AAA1-698C1288DE93 style="display:none"><PARAM NAME="_Version" VALUE="65536"><PARAM NAME="_ExtentX" VALUE="2646"><PARAM NAME="_ExtentY" VALUE="1323"><PARAM NAME="_StockProps" VALUE="0"></OBJECT>
+                <span style="display:none">
+                    <span jwcid="RemoteTag@TextField" class="txt" value="ognl:tradeInfo.RSRV_STR2" encode=false></span>
+                    <span jwcid="PROCID@TextField" class="txt" value="ognl:tradeInfo.RSRV_STR3" encode=false></span>
+                    <span jwcid="IMSI@TextField" class="txt" value="ognl:tradeInfo.IMSI" encode=false></span>
+                    <span jwcid="CardErrCode@TextField" class="txt" value="ognl:tradeInfo.EXEC_RESULT" encode=false></span>
+                    <span jwcid="CardErrInfo@TextField" class="txt" value="ognl:tradeInfo.REMARK" encode=false></span>
+                </span>
+               <input type="text" class="txt" style="display:none" value="ognl:tradeInfo.USER_ID_A" jwcid="USER_ID_A_HIDEN@TextField"/>
+               <input type="text" class="txt" style="display:none" value="ognl:tradeInfo.HEAD_NUMBER" jwcid="HEAD_NUMBER_HIDEN@TextField"/>
+                    <div id="guideArea" oncheck="return checkGuideInfo()" onhide="return showProductInfo();" lastvalue="">
+                        <div jwcid="@RenderBlock" block="ognl:components.guide"></div>
+                    </div>
+                     <div id ="productAreaParent" oncheck="return checkProductInfobyENBPP()" onhide="$('PromotionBt').hide();" onshow="$('PromotionBt').show();" lastvalue="" style="margin-top:-20px;">   
+                     <div id="productArea">
+                         <img src='/component/images/loading.gif' alt='[loading]'/>正在加载...
+                     </div>
+                     </div>
+                    <div id="baseArea" style="display:none; margin-top:5px;" onshow="showBaseArea();" oncheck="return checkBaseInfo()" >
+                        <div jwcid="@RenderBlock" block="ognl:components.baseInfo"></div>
+                    </div>
+                    <div id="groupArea" class="userInfo" style="display:none"
+                        onshow="$('Next').value='下一步';showGroupPage();" 
+                        oncheck="return checkGroupInfo();"
+                        showed="false">
+                        <!--  <div jwcid="@RenderBlock" block="ognl:components.groupInfo"></div> -->
+                         <iframe src="" id="grpframe" name="grpframe" width="100%" height="350px" FRAMEBORDER="0"></iframe>
+                    </div>  						
+                    <div id="postArea" style="display:none" onshow="showPostInfo();"
+                        oncheck="return checkPostInfo()">
+                        <div jwcid="@RenderBlock" block="ognl:components.postInfo"></div>
+                    </div>
+                    <div id="saleArea" style="display:none">
+                        <div jwcid="@RenderBlock" block="ognl:components.saleInfo"></div>
+                    </div>
+                    <!-- wangwy.start -->
+                    <div id="installProFeeArea" style="display:none"
+                        onshow="$('Next').value='下一步';this.oncheck='return submitTrade();'"
+                        onhide="$('Next').value='下一步'">
+                        <div jwcid="@RenderBlock" block="ognl:components.installProFeeInfo"></div>
+                    </div>
+                    <!-- wangwy.end -->
+                    <div id="familyArea" style="display:none"
+                        onshow="$('Next').value='下一步';this.oncheck='return submitTrade();'"
+                        onhide="$('Next').value='下一步'">
+                        <div jwcid="@RenderBlock" block="ognl:components.familyInfo"></div>
+                    </div>
+                    <div id="feeArea" style="display:none">
+                        <iframe src="" id="feeframe" name="feeframe" width="100%" height="350px" FRAMEBORDER="0"></iframe>
+                    </div>
+            </form>
+            <form jwcid="@Form" class="stepBtn">
+                <input type="button" class="btn4" style="display:none" onmouseover="this.className='btn4 btnOver'" onmouseout="this.className='btn4 btnOff'" id="PromotionBt" value="促销校验" onclick="PromotionCheck()"/>
+                <input type="button" class="btn4" onmouseover="this.className='btn4 btnOver'" onmouseout="this.className='btn4 btnOff'" id="roallback1" value="放弃开户" onclick="if(window.confirm('确定放弃开户吗？')){releaseAllRes();$('resetTrade').click();}else{return false;}"/>
+                <input type="button" class="btn3" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'" id="Previous1" value="上一步" onclick='$("Previous").click()'/>
+                <input type="button" class="btn3" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'" id="Next1" value="下一步" onclick='$("Next").click()'/>
+            </form>             
+        </div>
+        <!--步骤阶段  结束-->
+    </div>	
+   <!--content 结束-->
+    <!--guideInfo  开始-->
+	<div jwcid="guide@Block">
+        <input jwcid="@Any" id="kefuInmode" style='ognl:getKEFUInmode()?"display:none":"display:none"' type=button class="btn4" onmouseover="this.className='btn4 btnOver'" onmouseout="this.className='btn4 btnOff'" value="创建客户" onclick="createCust();"/>
+        <!--业务类型  开始-->
+        <fieldset ondblclick="return;expand(this.firstChild,'ywlx','netTypeArea');" style="display:none;">
+            <legend class="unexpand" onclick="expand(this,'ywlx','netTypeArea');">业务类型</legend>  
+            <div id="ywlx" style="display:block;" class="noticeWords"></div>          
+            <div id="netTypeArea" class="feldsetCont" style="display:none;">
+            	<table class="threeCol" cellpadding="0" cellspacing="0">            		
+            		<tr>
+            			<td class="label"><input type='radio' class='radio' name='ydwye' id='ydwye' checked value='2' onclick='changeMode(this)'/></td>
+            			<td>移动业务</td>
+            			<td class="label" ><input type='radio' class='radio' name='gwyw' id='gwyw' value='1' onclick='changeMode(this)' /></td>
+            			<td class="moreElement" ><span>固网业务</span>
+            				<!-- 资源预判  开始-->
+            				<span id ="resButton">
+             					<input type="button" class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'" value="资源预判" onclick="resJudgeNew(false, true)"/>
+        					</span>
+        				</td>
+            			<td class="label" style="display: none"><input type='radio' class='radio' name='rhyw' id='rhyw' value='融合业务' title="跳转融合界面" onclick='changeMode(this)' /></td>	
+            			<td ><span style="display: none">融合业务</span></td>
+            		</tr>
+            	</table>    
+            </div>
+        </fieldset>
+        <!--业务类型  开始-->
+        <fieldset id="YDYWXH" style="display:none"  ondblclick="return;expand(this.firstChild,'ydywxh2','preposingInfo');">
+            <legend class="unexpand" onclick="expand(this,'ydywxh2','preposingInfo');">移动业务选号</legend>  
+            <div id="ydywxh2" style="display:block;" class="noticeWords">点击标题可展开移动业务选号区...</div>         
+           	<div id="preposingInfo" style="display:none; padding-left:8px;"></div>
+        </fieldset>  
+        <!-- added by zhoubl-->
+        <div jwcid="@Conditional"  condition='ognl:page.getCurrentRightCode().equals("csCreateUserJoinWO")'>
+            <fieldset ondblclick="return;expand(this.firstChild,'wox','woxArea');">
+			<legend  class="unexpand" onclick="expand(this,'wox','woxArea');">沃享查询</legend>
+            <div id="wox" style="display:block;" class="noticeWords">点击标题可展开沃享查询区...</div>
+            <div id="woxArea" style="display:none; padding-left:8px;">
+            		<div jwcid="woxArea@cs:ExtraPropertySet" source="ognl:#{}" propSetName="QUERY_WOXIANG" />
+            </div>
+        	</fieldset>
+        </div>
+        <div id='WOXIANGHIDDEN'>	        
+        <!-- added by zhoubl end-->
+        <!-- 3g 用户开户行业应用信息 --> 
+        <div id = "GRP_ATTR_AREA" style ="display:none">	
+        <fieldset id="3GKHHY"  ondblclick="expand(this.firstChild,'3gkhhy2','userhyinfos');">
+            <legend class="unexpand" onclick="expand(this,'3gkhhy2','userhyinfos');">行业应用信息</legend>  
+            <div id="3gkhhy2" style="display:none;" class="noticeWords">点击标题可展开行业应用区...</div>         
+           	<div id="userhyinfos">
+				<table cellpadding="0" cellspacing="0" class="threeCol">
+                 <tr>
+                 	<span style="CURSOR:hand;background-color:white" onClick="if(!$('gRadio').checked)$('gRadio').click()">
+                 	<td class="label"><input type="radio" name="radioT" id="gRadio" onClick="if($('groupAera').style.display == 'none') switchType(this)" value="1"  class="radio" /></td>
+                   	<td align="left">集团客户</td>
+                   	</span>
+                   	<span style="CURSOR:hand" onClick="if(!$('pRadio').checked)$('pRadio').click()">
+                   	<td class="label">
+                   		<!--qc:33866 begin wangqiao   统一版本合并-->
+                   		<input type="radio" name="radioT" id="pRadio" onClick="if($('groupAera').style.display != 'none') switchType(this);$(serialNumber).value='';$(simCardNo).value='';if($('serialNumber').nextSibling.nextSibling){$($('serialNumber').nextSibling.nextSibling).remove()};if($('simCardNo').nextSibling.nextSibling){$($('simCardNo').nextSibling.nextSibling).remove()}" value="0" class="radio" checked="true" /></td>
+                    	<!--qc:33866 end wangqiao  统一版本合并-->
+                   		<td>公众客户</td>
+                   	</span>
+                   	<span id="groupName" style ="display:none">
+                   	<td class="label"  id="groupName1" style ="display:none">集团：</td>
+                   	<td id="groupName2" style ="display:none"><input type="text" jwcid="GROUP_NAME_ESS@TextField" value = "ognl:tradeInfo.GROUP_NAME_ESS" disabled="true"/><a HREF="javascript:" onclick="queryCustGroup(this);"> 查询集团</a></td>
+                   	</span>
+                   	<td width="5%" style="display:none" ><input type="text"value="ognl:tradeInfo.GROUP_ID_ESS" jwcid="GROUP_ID_ESS@TextField"/></td>
+                 </tr>
+                 <tr id = "groupAera" style ="display:none">
+                 	<span style="CURSOR:hand;background-color:white" onClick="if(!$('grpRadio').checked)$('grpRadio').click()">
+                    <td class="label"><input type="radio" name="radioG" id="grpRadio" onClick="if($('GRP_ATTR_TR').style.display == 'none') switchType(this)" value="0"  class="radio" /></td>
+                   	<td>行业应用</td>
+                   	</span>
+                   	<span style="CURSOR:hand" onClick="if(!$('ngrpRadio').checked)$('ngrpRadio').click()">
+                   	<td class="label"><input type="radio" name="radioG" id="ngrpRadio" onClick="if($('GRP_ATTR_TR').style.display != 'none') switchType(this)" value="1" class="radio" checked="true"/></td>
+                    <td>非行业应用</td>
+                   	</span>
+                   	<td class="label"></td>
+                   	<td></td>
+                 </tr> 
+                 <tr id="GRP_ATTR_TR"  style ="display:none" class="noBorder">  
+                    <!-- QC:96543 BEGIN 行业应用信息改造-->
+                  	<td class="label">行业应用类别大类：</td>
+                   	<td><select  class="txt" jwcid="GRP_ATTR@flower:LookupCombo" source="ognl:util.getCommParamWithGroup('CSM','2669','','PARA_CODE1','PARA_CODE2')" value="" onrealvaluechange="changeGrpAttr();"/></td>
+                   	<td class="label">行业应用类别小类：</td>
+                   	<td><select  class="txt" jwcid="GRP_ATTR_MINI@flower:LookupCombo" source="" value="" /></td>
+                   	<td class="label">操作</td>
+                   	<td><input type="button" class="btnInside" value="增加" onclick="addGrpAttr();" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"></td>
+                   	<!-- QC:96543 END 行业应用信息改造-->
+                 </tr>                                
+				</table>	           	          	
+           	</div>           			         	
+        </fieldset>
+        </div>  
+        <!-- QC:96543 BEGIN 行业应用信息改造-->
+        <!--行业应用信息  开始-->
+        <div id ="GRP_ATTR_DIV" style="display:none">
+        <fieldset ondblclick="return;expand(this.firstChild,'grp_attr_cpx','GRP_ATTR_DIS');" >
+            <legend class="unexpand" onclick="expand(this,'grp_attr_cpx','GRP_ATTR_DIS');">已选择的行业应用信息</legend>
+            <div id="grp_attr_cpx" style="display:block;" class="noticeWords">点击标题可展开已选择的行业应用信息...</div>
+            <div id="GRP_ATTR_DIS" class="feldsetCont" style="display:none; text-align:center;">
+            </div>
+        </fieldset> 
+        </div>
+         <!-- QC:96543 END 行业应用信息改造-->
+         <!-- lixm2615 begin -->
+         <fieldset id="YHDKZKYW"  ondblclick="return;expand(this.firstChild,'yhdkfk1','RiomainCard');">
+            <legend class="unexpand" onclick="expand(this,'yhdkfk1','RiomainCard');">一号多卡主卡认证</legend>
+            <div id="yhdkfk1" style="display:block;" class="noticeWords"></div>
+            <div id="RiomainCard" class="feldsetCont" style="display:none; text-align:center;">
+                 <table align="center" class="threeCol" cellpadding="0" cellspacing="0">
+
+                    <tr>                     
+                       <td class="label">主卡号码：</td>
+                       <td><input type="text" id="RioMainCardSerialNumber" value="" maxlength=15 required="true" checkdata="isdigit" onblur="trim(this.value);rioMainCardSerialNumber(this)"  /></td>
+                       <td class="label"></td>
+                    </tr>
+                 </table>
+            </div>
+        </fieldset> 
+          <fieldset id="YHDKFKYW"  ondblclick="return;expand(this.firstChild,'yhdkfk2','RiodeputyCard');">
+            <legend class="unexpand" onclick="expand(this,'yhdkfk2','RiodeputyCard');">一号多卡附卡办理</legend>
+            <div id="yhdkfk2" style="display:block;" class="noticeWords">点击标题可展开一号多卡附卡业务选择区...</div>
+            <div id="RiodeputyCard" class="feldsetCont" style="display:none; text-align:center;">
+                 <table align="center" class="threeCol" cellpadding="0" cellspacing="0">
+
+                    <tr>
+                       <td class="label">附卡：</td>
+                       <td><input type="checkbox" id="RioDeputyCard" value="RioDeputyCard"  required="true" /></td>
+                       
+                       <td class="label"></td>
+                    </tr>
+                    <tr>
+                   
+            <td class="label">附卡终端类型：</td> 
+                    <td><select class="txt" jwcid="X_GETMODE@flower:LookupCombo" source='ognl:util.getOptions(#{"1":"苹果","2":"华为"})' value="ognl:tradeInfo.X_GETMODE" required="true" /></td>
+                     <td class="label">附卡终端信息别名：</td>
+                       <td><input type="text" id="RioDeputyPurchaser" value="" maxlength=15 required="true"   /></td>
+                    <td class="label">业务类型：</td> 
+                    <td><select class="txt" jwcid="X_GETMODENEW@flower:LookupCombo" source='ognl:util.getOptions(#{"1":"SIM卡","2":"eSIM卡"})' value="ognl:tradeInfo.X_GETMODENEW" required="true" onrealvaluechange="MainDeputyCardLimit('X_GETMODENEW')"/></td>
+          </tr>
+          <tr>
+          <td class="label">附卡号码：</td>
+                       <td><input type="text" id="RioDeputyCardSerialNumber" value="" maxlength=15 checkdata="isdigit"  disabled="true" /></td>
+                       <!-- itanr s -->
+                       <td class="label">附属终端IMEI：</td>
+                       <td><input type="text" id="RioDeputyPurchaserIMEI" value="" maxlength=40  checkdata="isdigit"  required="true" /></td>
+                       <!-- itanr e -->
+                       <!-- lixm2615 469909 begin -->
+                       <td class="label">附属终端EID：</td>
+                       <td><input type="text" id="RioDeputyPurchaserEID" value="" maxlength=40  checkdata="isdigit"   /></td>
+                       <!-- lixm2615 469909 end -->
+			    <td>
+				      <input type="button" id="RioDeputy"   value="选号" class="btn2" onclick="getRioDeputyCardSerialNumber()" />
+				  </td>
+			    </tr>
+                 </table>
+            </div>
+        </fieldset> 
+        <!-- lixm2615 end -->
+             <fieldset id="FKYW" style="display:none" ondblclick="return;expand(this.firstChild,'fkyw2','deputyCardArea');">
+            <legend class="unexpand" onclick="expand(this,'fkyw2','deputyCardArea');">主副卡业务</legend>
+            <div id="fkyw2" style="display:block;" class="noticeWords">点击标题可展开主副卡业务选择区...</div>
+            <div id="deputyCardArea" class="feldsetCont" style="display:none; text-align:center;">
+                 <table align="center" class="threeCol" cellpadding="0" cellspacing="0">
+                    <tr>
+					   <td class="label">是否主卡：</td>
+					   <td><input type="checkbox" name="MainCard"  id="MainCard"  value="MainCard"    onclick="clickIsMainCard()"/>  
+					   <td class="label">&nbsp;</td>
+				       <td>&nbsp;</td>
+				       <td class="label">&nbsp;</td>
+				       <td>&nbsp;</td>
+					</tr>
+                    <tr>
+                       <td class="label">是否副卡：</td>
+                       <td><input type="checkbox" id="DeputyCard" value="DeputyCard"  onclick="clickIsDeputyCard()"/></td>
+                       <td class="label">主卡号码：</td>
+                       <td><input type="text" id="MainCardSerialNumber" value="" maxlength=15 checkdata="isdigit"  disabled="true" onblur="trim(this.value);newMainCardSerialNumber(this)"/></td>
+                       <td class="label"></td>
+                    </tr>
+                 </table>
+            </div>
+        </fieldset>
+	<!-- lixm2615 begin 隐藏-->
+	    <!--推荐活动  开始-->
+        <fieldset style="display:none" ondblclick="return;expand(this.firstChild,'tjhd','prodTypeArea');">
+            <legend  class="unexpand" onclick="expand(this,'tjhd','prodTypeArea');">推荐活动</legend>
+            <div id="tjhd" style="display:block;" class="noticeWords">点击标题可展开推荐活动选择区...</div>
+            <div id="prodTypeArea" class="feldsetCont" style="display:none;">
+                <img src='/component/images/loading.gif' alt='[loading]'/>正在加载...
+            </div>
+        </fieldset>
+        <!--热销产品  开始-->
+        <fieldset style="display:none" ondblclick="return;expand(this.firstChild,'rxcp','hotProdArea');">
+            <legend  class="unexpand" onclick="expand(this,'rxcp','hotProdArea');">热销产品</legend>
+            <div id="rxcp" style="display:block;" class="noticeWords">点击标题可展开热销产品选择区...</div>
+            <div id="hotProdArea" class="feldsetCont" style="display:none;">
+                <img src='/component/images/loading.gif' alt='[loading]'/>正在加载...
+            </div>
+        </fieldset>
+        
+        <!--个性热销产品 开始--> 
+        <fieldset style="display:none" ondblclick="return;expand(this.firstChild,'gxrx','staffHotProdArea');">
+            <legend  class="unexpand" onclick="expand(this,'gxrx','staffHotProdArea');">个性热销产品</legend>
+            <div id=gxrx  style="display:block;" class="noticeWords">点击标题可展开个性热销产品选择区...</div>
+            <div id="staffHotProdArea" class="feldsetCont" style="display:none;">
+                <img src='/component/images/loading.gif' alt='[loading]'/>正在加载...
+            </div>
+        </fieldset>
+        
+        <!-- QC:19577  begin 重通业务选择 统一版本合并  style ="display:none"--   >
+        <!--热销产品  开始-->
+         <!--<div jwcid ="@Conditional" condition='ognl:@com.linkage.core.util.Utility@existDataRight(pageData,"SYSZT001")'>-->
+        <fieldset style="display:none" ondblclick="return;expand(this.firstChild,'ctcp','ctProdArea');">
+            <legend  class="unexpand" onclick="expandZT(this,'ctcp','ctProdArea');">重通业务活动选择</legend>
+            <div id="ctcp" style="display:block;" class="noticeWords">点击标题可展开重通活动选择区...</div>
+            <div id="ctProdArea" class="feldsetCont" style="display:none;">
+               
+            </div>
+        </fieldset>
+        <!--</div>-->
+        
+        
+        <!-- QC:19577  end 重通业务选择  统一版本合并-->
+ 	    <!--产品线  开始-->
+        <fieldset style="display:none" ondblclick="return;expand(this.firstChild,'cpx','prodLineArea');" >
+            <legend class="unexpand" onclick="expand(this,'cpx','prodLineArea');">产品目录</legend>
+            <div id="cpx" style="display:block;" class="noticeWords">点击标题可展开产品目录选择区...</div>
+            <div id="prodLineArea" class="feldsetCont" style="display:none; text-align:center;">
+                 <table align="center" class="threeCol" cellpadding="0" cellspacing="0">
+                    <tr>
+                       <td class="label">一级目录：</td>
+                       <td><select jwcid="PRODUCT_NET_CODE@flower:LookupCombo" source="ognl:productNetCode" valueCode="CODE" labelCode="NAME" titles="名称:150,编码:80" titleCodes="NAME,CODE" value="ognl:page.tradeInfo.NET_TYPE_CODE" onrealvaluechange="changeProductNetCode();" class="txt"/></td>
+                       <td class="label">二级目录：</td>
+                       <td><select jwcid="PRODUCT_SET_CODE@flower:LookupCombo" source="ognl:productSetCode" valueCode="CODE" labelCode="NAME" titles="名称:150,编码:80" titleCodes="NAME,CODE" value="ognl:page.tradeInfo.NET_TYPE_CODE" onrealvaluechange="changeProductSetCode();" class="txt"/></td>
+                       <td class="label">三级目录：</td>
+                       <td><select jwcid="PRODUCT_TYPE_CODE_O@flower:LookupCombo" source="ognl:productTypeCodeO" valueCode="CODE" labelCode="NAME" titles="名称:150,编码:80" titleCodes="NAME,CODE" value="ognl:page.tradeInfo.NET_TYPE_CODE" onrealvaluechange="changeProductTypeCodeO();"  class="txt"/></td>
+                    </tr>
+                 </table>
+            </div>
+        </fieldset> 
+<!-- lixm2615 end 隐藏-->
+	</div>
+        <!--产品查询  开始-->
+        <fieldset ondblclick="return;expand(this.firstChild,'cpcx','findProductArea');">
+        	<legend class="unexpand" onclick="expand(this,'cpcx','findProductArea');">产品别名查询</legend>
+        	<div id="cpcx" style="display:block;" class="noticeWords">点击标题可展开产品查询选择区...</div>
+               <div id="findProductArea" class="feldsetCont noPadding" style="display:none">
+                   <div class="c_search">
+                       <table border="0" cellspacing="0" cellpadding="0" class="threeCol containBtn">
+                           <tr>
+                                <td class="label">产品别名：</td>
+                                <td><input id="productName" value ="一号多卡附卡产品" class="txt" style="margin-right:5px;width:70%"  onFocus="this.value='一号多卡附卡产品'" />
+                                <!--added by zhoubl 产品别名查询，加了一个id,productNameQuery-->
+                                <input  type="button" id="productNameQuery"  class="btnInside" value="查询" onclick="queryProductInfoByName($F('productName'),'0');" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"></td>
+                                
+                                 <td><span style="color:red">输入 "一号多卡附卡产品" 字样，支持模糊查询</span>
+                         			
+                         				  </td>
+                                 <td class="label">客户归属业务区：</td>
+       							 <td><select  jwcid="CHOOSE_CITY_CODE@flower:LookupCombo" value="ognl:page.tradeInfo.CHOOSE_CITY_CODE" source="ognl:util.getListParam(#{'VTRADE_EPARCHY_CODE':(page.routeEparchyCode)},'td_m_area','NormalPara')" valueCode="PARACODE" labelCode="PARANAME" 
+									titles="服务区:100,服务区编码:100" 
+									titleCodes="PARANAME,PARACODE"  onrealvaluechange="chooseCityChange();" required="true" class="txt"  /></td>
+                           </tr>
+                           <tr>
+
+
+               
+				       
+                           </tr>
+                       </table>
+                   <!--added by zhoubl-->
+                   <span jwcid="@DirectLink" id="getProductInfoByIdWOX" name="getProductInfoByIdWOX" listener="ognl:listeners.getProductInfoByIdWOX"/>
+                   <!--added by zhoubl end-->
+                   <span jwcid="@DirectLink" id="queryProductInfoByName" name="queryProductInfoByName" listener="ognl:listeners.queryProductInfoByName"/>                              
+                                                 
+               </div>               
+        <div class="UITableBox">
+             <div class="UITable" style="overflow-y:auto;height:150px;">
+                 <table id="ProductListTable">
+                     <thead>
+                         <tr>
+                           <th id="col_CHECK" class="first">选择</th>
+                           <th id="col_PRODUCT_ID">产品编码</th>
+                           <th id="col_PRODUCT_NAME">产品名称</th>
+                           <th id="col_PRODUCT_TYPE_NAME">活动名称</th>
+                           <th id="col_NET_TYPE_NAME">电信类型</th>
+                           <th id="col_BRAND_CODE" style="display:none">品牌编码</th>
+                         </tr>
+                     </thead>
+                     <tbody id="tbProductListTable">
+                         <tr jwcid="@Foreach" source="ognl:productList" value="ognl:productInfo" element="tr" index="ognl:idx"  bgcolor="ognl:idx % 2 == 0 ? '#ffffff' : '#fafafa'">
+                             <td class="first"><input jwcid="@Any" type="radio" selectedProductId="ognl:productInfo.PRODUCT_ID"  selectedBrandCode="ognl:productInfo.BRAND_CODE" value="ognl:productInfo.PRODUCT_TYPE_CODE" id="prodType" name="prodType" onclick="selectProduct(this);"/> 
+                             </td>     	
+                             <td><span jwcid="@Insert" value="ognl:productInfo.PRODUCT_ID" raw="true" /></td>              		
+                             <td><span jwcid="@Insert" value="ognl:productInfo.PRODUCT_NAME" raw="true" /></td>              		
+                             <td><span jwcid="@Insert" value="ognl:productInfo.PRODUCT_TYPE_NAME" raw="true" /></td>
+                             <td><span jwcid="@Insert" value="ognl:productInfo.NET_TYPE_NAME" raw="true" /></td>
+                             <td style="display:none"><span jwcid="@Insert" value="ognl:productInfo.BRAND_CODE" raw="true" /></td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+        </div> 
+               </div>               
+        </fieldset>
+        <fieldset style="display:none;" ondblclick="expand(this.firstChild,'cpsx','productItemArea1');">
+            <legend class="expand" onclick="expand(this,'cpsx','productItemArea1');">产品属性</legend>
+            <div id="cpsx" style="display:block;" class="noticeWords">点击标题可展开产品属性编辑区...</div>
+            <div id="productItemArea1" style="display:none;">
+	            <div class="feldsetCont">
+	                 <a id="btnshowQuestion" style="display:none">问题列表</a>
+	                 <input type="text" style="display:none" value="ognl:page.tradeInfo.btnQuestionUrl" jwcid="btnQuestionUrl@TextField"/>	                  
+	                 <table border="0" cellspacing="0" cellpadding="0" class="threeCol">
+	                  <tr>
+	                     <td class="label">电信类型：</td>
+	                     <td><select class="txt" jwcid="NET_TYPE_CODE@flower:LookupCombo" source="ognl:page.tradeNetCode" value="ognl:page.tradeInfo.NET_TYPE_CODE" onrealvaluechange="filterByNetcode()"   /></td><!--
+	                     <td class="label">营业区：</td>
+	                     <td><select jwcid="CHOOSE_CITY_CODE@flower:LookupCombo" value="ognl:page.tradeInfo.CHOOSE_CITY_CODE" source="ognl:util.getSysParam('td_m_area_30')" onrealvaluechange="chooseCityChange();" required="true" class="txt"  /></td>
+	                     --><td class="label">&nbsp;</td>
+						 <td>&nbsp;</td>		                     
+	                  </tr>
+	                 </table>
+	            </div>
+	            <div class="feldsetCont noPadding">
+	                <div class="e_title" onclick="$('brandArea').toggle()">请选择品牌</div>
+	                <div id="brandArea" class="paddingPart">
+	                        <img src='/component/images/loading.gif' alt='[loading]'/>正在加载...
+	                </div>
+	            </div>
+	            <div class="feldsetCont noPadding" id="brandProdAreaParent">
+	                <div class="e_title" onclick="$('brandProdArea').toggle()">品牌下可办理的活动</div>
+	                <div id="brandProdArea" class="paddingPart">
+	                        <img src='/component/images/loading.gif' alt='[loading]'/>正在加载...
+	                </div>
+	            </div>
+	            <div class="feldsetCont noPadding" style="">
+	                <div class="e_title">产品属性</div>
+	                <div id="productItemArea" class="paddingPart"></div>
+            	</div> 
+            	<div class="feldsetCont noPadding" style="">
+	                <div class="e_title">资费属性</div>
+	                <div id="discntItemArea" class="paddingPart"></div>
+            	</div> 
+           </div>
+        </fieldset>
+        <!-- tfs:381480 使用mispos扫终端串码需求 add by xingxy -->
+		<div id="MISPOS_OBJECT" style="display:none"> </div>
+	</div>
+    <!--guideInfo  结束-->
+    <!--baseInfo 开始-->
+	<div jwcid="baseInfo@Block"><!--
+  		<div class="e_title" id="subTypeTitle">订单信息</div>
+        <table cellpadding="0" cellspacing="0" class="threeCol" id="subTypeInfo">
+	        <tr class="noBorder">
+        <td class="label">订单状态：</td>
+        <td><select class="txt" jwcid="SUB_TYPE@flower:LookupCombo" required="true" source='ognl:util.getOptions(#{"0":"正常单","1":"后补单","2":"资料补录单","3":"自定义","4":"乡镇工单","h":"待装单","6":"业务补录"})' value="0"/></td>
+        <td class="label"></td>
+        <td></td>
+        <td class="label"></td>
+        <td></td>
+        </tr>
+        </table>
+		-->
+		<input jwcid="_BoInfo@Hidden" value="ognl:page.BoInfo" encode=false />
+        <input type="hidden" id="SHARE_TRADE_ID" NAME="SHARE_TRADE_ID" />
+        <input type="hidden" id="SHARE_USER_ID" NAME="SHARE_USER_ID" />
+        <span jwcid='@cs:MofficeInfo' barTitle='选址信息'></span>
+		<div class="e_title" onclick="$('actorArea').toggle()" style="cursor:hand"><a>用户信息</a></div>
+	    <div class="c_search" jwcid="@Any" element="div" id="actorArea" style="display:none">
+		<span jwcid="@Conditional"  condition='ognl:page.getCurrentRightCode().equals("csCreateUserForAgentTrade")'>
+			<table class="oneCol" cellpadding="0" cellspacing="0">
+				<tr id="dlsarea">
+					<td class="label">选择代理商：</td>
+					<td>
+						<input type="text" id="agentDepartId" required="true" value="" disabled="true" valueCode="" lastValueCode="" class="txt" />
+						<input type="button" id="btnagentdepartid" name="btnagentdepartid" class="btn5" onmouseover="this.className='btn5 btnOver'" onmouseout="this.className='btn5 btnOff'" value="查询代理商" onclick="fnGetAgentDepartInfo()"/>
+			    	</td>
+				</tr>
+			</table>
+		</span>
+		<div id="instanceInfo"></div> <!-- 根据场景定义这个div宽度:如果有一个字段,style="width:33%";如果有两个字段,style="width:67%;" ;如果有三个字段, style="width:100%"  -->
+		<table cellpadding="0" cellspacing="0" class="threeCol">
+			<tr id="depositInfo" style="display:none">
+            	<td style="color:red" class="label" >转兑预存：</td>
+				<td><select jwcid="DEPOSIT@flower:LookupCombo" 
+					source="ognl:''" 
+					value="ognl:tradeInfo.DEPOSIT" class="txt" /></td>
+				<td class="label">&nbsp;</td>
+				<td>&nbsp;</td>
+				<td class="label">&nbsp;</td>
+				<td>&nbsp;</td>
+            </tr>
+		    <input jwcid="GH_NET_CODE@TextField" class="txt" style="display:none" value="ognl:tradeInfo.GH_NET_CODE"  />
+		</table>
+        <div id="testNumInfo"></div>		
+		</div>
+
+        <div class="e_title">用户服务密码</div>
+        <table cellpadding="0" cellspacing="0" class="threeCol">
+            <tr>
+                <td class="label">
+                    <input type="button" id = "pwdbuttonL" style="display:none" class="btnInside" Value="用户服务密码设置" onclick="fnSetUserPwd()" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/>
+                    <input jwcid="UNDEED_LITTIE_KEYBOARD@TextField" style="display:none" value="ognl:tradeInfo.UNDEED_LITTIE_KEYBOARD" class="txt"/>
+                    <input jwcid="CUR_PROVINCE@TextField" style="display:none" value="ognl:tradeInfo.CUR_PROVINCE" class="txt"/>
+                    <input jwcid="CUR_SPCL_VPN_GROUP@TextField" style="display:none" value="ognl:tradeInfo.CUR_SPCL_VPN_GROUP" class="txt"/>
+                    <input type="button" id = "pwdbutton" style="display:none" class="btnInside" Value="用户服务密码设置" onclick="fnSetUserPwdNoLK()" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/>
+                </td>
+                <td class="label">&nbsp;</td>
+                <td><input type="text" class="txt" jwcid="USER_PASSWD@Hidden" hidden=true value="ognl:passwd" encode=false/></td>
+                <td class="label">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+
+
+	   <div id = "GRPINFO_AREA" style ="display:none">
+	      <div class="e_title" id="GrpInfoDiv">集团信息</div>
+				<table class="threeCol" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td class="label">集团客户：</td>
+						<td>
+							<input type="text" id="CUST_GROUP_ID" value="" valueCode="" class="txt" style="width:50%" disabled="true"/>
+							<input type="button" id="btnghstaffid" name="btnghstaffid"   class="btn6" value="获取集团客户" onclick="return queryCustGroup2(this);" onmouseover="this.className='btn6 btnOver'" onmouseout="this.className='btn6 btnOff'"/>			
+						</td>
+					</tr>
+				</table>
+	   </div>
+		<div class="e_title">账户信息</div>
+		<input type="hidden" id="bankCode" value=""/>
+		<!--Qc:96496 Begin 与96256共用TAG_CODE-->
+		<input jwcid="TAG_INFO96496@TextField" style="display:none" raw="true" value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'CS_GROUP_NOACCT', 'TAG_INFO', '0')" /> 
+		<!--Qc:96496 end-->
+		<div id="divAcctInfo">
+		<table class="threeCol" cellpadding="0" cellspacing="0">
+			<tr>
+				<td id="acctModeId0" class="label">账户方式：</td>
+				<td id="acctModeId"><select jwcid="acctMode@flower:LookupCombo" value="0" required="true" source='ognl:util.getOptions(#{"0":"新增账户","1":"已有账户"})' onrealvaluechange="chgAcctMode()" class="txt" /></td>
+				<!-- HLJCU_REQ_YYSL_20110330_014 start -->
+				<td class="label"><span id="tdUrgePhone">催缴号码：</span><input type="button" id="queryOldAcct" value="查询" onclick="return queryAcct()" class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/></td>	
+				<td><input type="text" jwcid="URGE_PHONE@TextField" value="ognl:tradeInfo.URGE_PHONE" checkdata="maxlength=11,isphone" class="txt"/></td>
+				<!-- HLJCU_REQ_YYSL_20110330_014 end -->
+				<td class="label">
+				<!--  
+					<span id="acctPasswd">
+						<input type="button" jwcid="ACCT_PASSWD@cs:PwdSetter" value="ognl:passwd" btnValue="账户密码设置"   />
+					</span>
+				-->
+					<span id="acctHintSn" style="display:none">
+						<input type="hidden" id="acctId" value=""/>
+					</span>
+                </td>
+				<td>
+					<!-- QC 98451 begin 20130819 wuxg add -->
+					<span jwcid ="@Conditional" condition='ognl:tradeInfo.CS_BANKCARDWITH_2P == "1"' >
+						<input type="button" value="银行卡代扣签约" class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'" 
+							id="bcaButton" onclick="bcaButtonClick(this);" />
+						<input type="text" jwcid="bcaHideInfo@TextField" style="display:none" value="ognl:globalCtrl" 
+							gCtrl="ognl:globalCtrl"
+							grpCityCode="ognl:tradeInfo.bcaGrpCityCode" 
+							acctId="ognl:tradeInfo.BCA_ACCT_ID"
+							tradeId="ognl:tradeInfo.BCA_TRADE_ID"
+							defvalue="ognl:tradeInfo.THER_SHOULD"
+							agrDt="ognl:tradeInfo.BCA_AGR_DATE" class="txt" />
+						<!-- QC 98451 end 20130819 wuxg add -->
+					</span>
+				</td>
+                <!-- <td id="newAcctTd"><input type="button" id="queryNewAcct" value="新增" onclick="return createNewAcct()" class="btn2" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" > </td> -->
+			</tr>
+			<tr>
+				<td class="label">账户名称：</td>
+				<td><input type="text" id="PAY_NAME" value="" required="true" class="txt" /></td>
+				<td class="label">账户类型：</td>
+				<!-- add by taomunan 隐藏拍照返回字段 -->
+				<input id="HIDDEN_JBRALWIDE"  type="hidden" value="" />
+				
+				<input id="RESIGN_JBRALWIDE"  type="hidden" value="" />
+				<input id="RESIGN_BRALWIDE"  type="hidden" value="" />
+				
+				<input id="photoBRPHOTO" type="hidden"  value=""  /> 			
+				<input id="photoJBRPHOTO" type="hidden"  value="" /> 
+				<input type="Hidden" id="appseq" value="" />
+				<input id="AGE_UNDER_16_NEW"  type="Hidden" value="" />
+				
+				
+				
+				<!-- 照片全国采集 是否强制上传权限 -->
+				<span jwcid="@Conditional" condition='ognl:page.checkGetPicRight'>
+				<input id="GET_PIC_RIGHT"  type="hidden" value=""/>
+				</span>
+				
+				<!-- add end  -->
+				<!-- QC:1478 add by fuqiang Begin -->
+				<td><select type="text" jwcid="PAY_MODE_CODE@flower:LookupCombo" value="0" required="true" source="ognl:util.getSysParam('td_s_paymode')" onrealvaluechange="chgPayMode()"  class="txt"  /></td>	
+				<!-- QC:1478 add by fuqiang End -->		
+<!--				<td class="label">账户标识：</td>-->
+				<td class="label">&nbsp;</td>
+				<td>
+					<input type="text" jwcid="ACCT_NUM@TextField" style="background-color:#DDDDDD;display:none" value="ognl:tradeInfo.ACCT_ID" checkdata="maxlength=50" disabled="true" class="txt"/>
+					<span id=updatebutton  style="display:none"><input type="button"  value="绑定高级付费关系" onclick="return queryMoreAcctount(this)" class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/></span>
+				</td>
+			</tr>
+			<tr id="trBankAccName" style="display:none">
+				<td class="label">托收账户名称：</td>
+				<td><input type="text" id="BANK_ACCT_NAME" value="" class="txt" style="background-color:#DDDDDD" /></td>
+				<td class="label">上级银行：</td>
+                <td><select jwcid="SUPER_BANK_CODE@flower:LookupCombo" source="ognl:util.getSysParam('td_s_superbank')"
+						    					value="" onrealvaluechange="superBankChange();" class="txt"  style="background-color:#DDDDDD"/></td>		    	
+				<td class="label">银行名称：</td>
+				<td><select type="text" jwcid="BANK_CODE@flower:LookupCombo" value=""
+					source="ognl:util.getOptions(#{})" valueCode="BANK_CODE" labelCode="BANK" titles="银行名称:150,银行行号:80" titleCodes="BANK,BANK_CODE,BANK_INNER_CODE" onrealvaluechange="bankchange(this);" class="txt" style="background-color:#DDDDDD;"/></td>	
+			</tr>
+			<tr id="trBankAcctNo" style="display:none">
+				<td class="label">银行账号：</td>
+				<td><input type="text" jwcid="BANK_ACCT_NO@TextField" style="background-color:#DDDDDD" value="ognl:tradeInfo.BANK_ACCT_NO" checkdata="isdigit,maxlength=30" class="txt"/></td>
+				<td class="label">协议编码：</td>
+				<td><input type="text" jwcid="AGREEMENT_NO@TextField" style="background-color:#DDDDDD" value="ognl:tradeInfo.AGREEMENT_NO" checkdata="agreementchecktab,maxlength=50" class="txt"/></td>	
+				<td class="label">业务编码：</td>
+				<td><select jwcid="BANK_BUSI_KIND@flower:LookupCombo" source='ognl:util.getOptions("通讯费00500:通讯费00500")' value="ognl:tradeInfo.BANK_BUSI_KIND" class="txt" style="background-color:#DDDDDD"/></td>
+			</tr>
+			<tr  id=updatebutton  style="display:none">
+			     <td class="label"></td>
+			     <td><input type="button"  value="绑定高级付费关系" onclick="return queryMoreAcctount(this)" class="btnInside" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/></td>
+			     <td class="label">&nbsp;</td>
+				 <td>&nbsp;</td>
+			     <td class="label">&nbsp;</td>
+			     <td>&nbsp;</td>
+			</tr>
+			<!-- add by changshaopei 辽宁本地需求 配置tag展现CS_SHOW_ACCOUNT_CREADIT 请勿再注释 谢谢  -->
+			<span jwcid="@Conditional" condition='ognl:tradeInfo.SHOW_ACCT_CREADIT=="1"'>
+				<tr>
+					 <td class="label">账户信用度：</td>
+					 <td><input type="text" value="0" id="acctCreditValue" onblur="return checkInteger(this,'账户信用度')" class="txt"/></td>    
+				     <td class="label">&nbsp;</td>
+				     <td>&nbsp;</td>
+				     <td class="label">&nbsp;</td>
+				     <td>&nbsp;</td>
+				</tr>
+            </span>
+            <tr id="bcaArea" style="display:none">  
+                 <td class="label">用户代扣缴费金额(元)：</td>
+                 <td>
+                 <!-- qc 101365  begin-->
+                 	<select class="txt" type="text" jwcid="BANK_FEE@flower:LookupCombo" value="" source="ognl:bankFee" valueCode="VALUE2" labelCode="VALUE1" titles="阈值金额:150,阈值编码:80" titleCodes="VALUE1,VALUE2" />    					                             
+                 <!-- qc 101365 End -->
+                 </td>
+                 <td class="label">用户阈值(元)：</td>
+                 <td><input id="YHDK_DKFZ" value="" maxlength=11 checkdata="isinteger"  class="txt"/></td>
+			</tr>
+		</table>
+	    </div>
+		<!-- TFS 121862 start 使用人责任人信息输入-->
+		<input jwcid="IS_AGENT_CHANNEL@TextField" class="txt" style="display:none" value="ognl:tradeInfo.IS_AGENT_CHANNEL"  />
+		
+	    <div class="c_search" jwcid="@Any" element="div" id="useCustArea" style="display:none">		
+		<!--借用 qc:33722 begin-->
+		<input jwcid="N6_33722_POLICECHECKKEY@TextField" raw="true"
+			value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'N6_33722_POLICECHECKKEY', 'TAG_INFO', '')"
+			style="display:none" /> <input
+			jwcid="N6_33722_CHECKTRADEKEY@TextField" raw="true"
+			value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'N6_33722_CHECKTRADEKEY', 'TAG_INFO', '')"
+			style="display:none" />
+		<!--借用 qc:33722 end  -->
+		<!--首页认证，省分为新疆，‘身份认证’按钮置为灰，一共修改了该文件1处+HTML页面和1个TAG（like 'N1_10357_POLICECHECKKEY%'）-->
+		<input jwcid="N1_10357_POLICECHECKKEY@TextField" raw="true"
+			value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'GZT', 'TAG_CHAR', '')"
+			style="display:none" />
+		<!--qc;10357 end  -->
+		<div class="e_title" id="useInfo1">使用人信息输入</div>
+		<div class="e_title" id="custInfo1" style="display:none">责任人信息输入</div>
+		<table cellpadding="0" cellspacing="0" class="twoCol">
+			<tr id="tr_pspt_id">
+				<td class="label" id='label_id_type'>证件类型：</td>
+				<td><select jwcid="ID_TYPE_CODE@flower:LookupCombo"
+					source="ognl:util.getSysParam('td_s_passporttype0')"
+					onrealvaluechange="chgPsptType($F('ID_TYPE_CODE'),'PSPT_ID')"
+					value="ognl:checkInfo.ID_TYPE_CODE" class="txt" /></td>
+				<td id="tdid" class="label">证件号码：</td>
+				<td><input type="text" id="PSPT_ID" value="" 
+					checkdata="minlength=1" class="txt" /></td>
+			</tr>
+			<tr id="tr_custname">
+				<td class="label" id="useName1">使用人名称：</td>
+				<td class="label" id="custName1" style="display:none">责任人名称：</td>
+				<td><input type="text" id="CUST_NAME" value="" 
+					checkdata="maxlength=40,checkspec" class="txt" /></td>
+				<td class="label" id="psptAddrs">证件地址：</td>
+				<td><input type="text" id="PSPT_ADDR" class="txt" value="" /></td>
+			</tr>
+		</table>
+		<div style="text-align:center; padding:5px 0;">
+			<input type=button value="读二代证" onclick="check_infosx(1);"  id="readbutton"  name="ok" class="btn2" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" /> 
+	    	<input jwcid="@Any"  type=button value="身份认证" onclick="check_infosx(2);" id="policebutton"   name="ok" class="btn2" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" />
+	    	<input jwcid="@Any"  type=button value="信息输入" onclick="check_infosx(3);" id="inputudbutton"   name="ok" class="btn2" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" />
+	    </div>
+	    <div class="e_title" id="useInfo2">使用人信息</div>
+	    <div class="e_title" id="custInfo2" style="display:none">责任人信息</div>
+    	<table cellpadding="0" cellspacing="0" class="twoCol">
+			<tr>
+				<td class="label">证件类型：</td>
+				<td><input type="text" id="psptTypeUd" class="txt" value="" required="true"
+					readonly /></td>
+				<td class="label">证件号码：</td>
+				<td><input type="text" id="psptIdUd" class="txt" value="" required="true"
+					readonly /></td>
+			</tr>
+			<tr>
+				<td class="label" id="useName2">使用人名称：</td>
+				<td class="label" id="custName2" style="display:none">责任人名称：</td>
+				<td><input type="text" id="custNameUd" class="txt" value="" required="true"
+					readonly /></td>
+				<td class="label">证件地址：</td>
+				<td><input type="text" id="psptAddrUd" class="txt" value="" required="true"
+					readonly /></td>
+			</tr>
+    	</table>
+    	</div>
+    	
+		<!-- TFS 121862 end -->
+		
+		<div class="e_title">发展人信息</div>
+		<table cellpadding="0" cellspacing="0" class="threeCol" id="developer_way">
+			<tr>
+				<td class="label">营销方式/类型：</td>
+				<td>
+					<select jwcid="MARKETING_MODE@flower:LookupCombo" class="txt"
+						source="ognl:page.util.getListParam(#{'VENUM_CODE':'CreatePhoneTrade'},'SEL_ITEMENUM_BY_CODE','TD_S_ENUMERATE')"
+						valueCode="ENUM_FIELD_CODE" labelCode="ENUM_FIELD_NAME"
+						titles="名称:150,编码:80"
+						titleCodes="ENUM_FIELD_NAME,ENUM_FIELD_CODE" value="1" required="true" />
+				</td>
+
+				<td class="label">项目名称:</td>
+				<td><div class="inputbox"> <input jwcid="projectId@Hidden"  type="hidden" value="ognl:tradeInfo.NEW_PROJECT_ID" encode=false/>
+					<input type="text" id="ghProject" disabled="true" value=""  valueCode="" lastValueCode=""  class="txt" /> 
+					<span HREF="javascript:void(0)" onclick="queryProject()" class="search"></span> 
+					</div>
+					<!--begin tfs: 277758 增加必填项的设置  edit by monk -->
+					<input jwcid="ghProject_required@TextField"  style="display:none"   value="ognl:@com.linkage.core.util.Utility@getSysTagInfo(pageData, 'PROJECT_REQUIRED_TAG', 'TAG_CHAR', '0')"  />
+					<!--end    tfs: 277758  -->
+				</td>
+				<td class="label">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		    <tr id="ydAreaCode" style="display:none">
+<!--				<td class="label">发展部门：</td>-->
+<!--				<td>-->
+<!--				    <input type="text" id="cityCode" value=""  valueCode="" lastValueCode="" class="txt"/>-->
+<!--				    <input jwcid="DEV_DEPART@TextField" style="display:none" value="ognl:tradeInfo.DEV_DEPART" class="txt" />-->
+<!--                	<input jwcid="DEV_DEPART_NUM@TextField" style="display:none" value="ognl:tradeInfo.DEV_DEPART_NUM" class="txt" />-->
+<!--                	<input type="button" id="btndepartid" name="btndepartid"  class="btn6" value="获取发展部门" onclick="fnGetDevDepartInfo()" onmouseover="this.className='btn6 btnOver'" onmouseout="this.className='btn6 btnOff'" />-->
+<!--                	<span id="lblDepRemark" style="hidden"></span>-->
+<!-- -->
+<!--				</td>-->
+	            <!-- QC:95811 begin -->
+				<td class="label">渠道名称1：</td>
+				<!-- QC:95811 end -->
+				<td>
+					<input type="text" id="cityCode" disabled="true" value=""  valueCode="" lastValueCode=""  class="txt"/>
+<!--					<input type="button" id="btnghdepartid" name="btnghdepartid"   class="btn6" value="获取发展部门" onclick="fnGetGhDepartInfo()"  onmouseover="this.className='btn6 btnOver'" onmouseout="this.className='btn6 btnOff'"/>-->
+				</td>
+				<!-- QC:95811 begin -->
+				<td class="label">发展人名称1：</td>
+				<!-- QC:95811 end -->
+				<td><input jwcid="developStaffId@flower:LookupCombo"  source="ognl:tradeInfo.staffInfo" value="ognl:tradeInfo.STAFF_ID" valueCode="STAFF_ID" labelCode="STAFF_NAME" titles="姓名:150,编码:80" titleCodes="STAFF_NAME,STAFF_ID" class="txt" /></td>
+				<td class="label">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr id="ghAreaCode" style="display:none">
+				<!-- QC:95811 begin -->
+				<td class="label">渠道名称：</td>
+				<!-- QC:95811 end -->
+				<td>
+					<input jwcid="newDeveloperId@Hidden"  type="hidden" value="ognl:tradeInfo.NEW_DEVELOP_ID" encode=false/>
+					<input jwcid="newDeveloperName@Hidden"  type="hidden" value="ognl:tradeInfo.NEW_DEVELOP_NAME" encode=false/>
+					<input type="text" id="ghCityCode" disabled="true" value=""  valueCode="" lastValueCode=""  class="txt"/>
+<!--					<input type="button" id="btnghdepartid" name="btnghdepartid"   class="btn6" value="获取发展部门" onclick="fnGetGhDepartInfo()"  onmouseover="this.className='btn6 btnOver'" onmouseout="this.className='btn6 btnOff'"/>-->
+				</td>
+<!--                <td id=ghStaffId  class="label">发展员工：</td>-->
+<!--				<td>-->
+<!--					<input type="text" id="ghDevelopStaffId" disabled="true" value=""  valueCode="" lastValueCode="" class="txt" style="width:50%" />-->
+<!--					<input type="button" id="btnghstaffid" name="btnghstaffid"   class="btn6" value="获取发展员工" onclick="fnGetGhStaffInfo()" onmouseover="this.className='btn6 btnOver'" onmouseout="this.className='btn6 btnOff'"/>-->
+<!--				</td>-->
+<!--				<td colspan=2>&nbsp;</td>-->
+                <!-- QC:95811 begin -->
+				<td id=ghStaffId class="label">发展人名称：</td>
+				<!-- QC:95811 end -->
+				<td>
+					<div style="display:none">
+				    	<input jwcid="ghDevelopStaffId@flower:LookupCombo"  source="ognl:tradeInfo.staffInfo" value="ognl:tradeInfo.STAFF_ID" valueCode="STAFF_ID" labelCode="STAFF_NAME" titles="姓名:150,编码:80" titleCodes="STAFF_NAME,STAFF_ID" class="txt"/>
+				    </div>
+					<div class="inputbox"> 
+					    <input jwcid="newStaffId@Hidden"  type="hidden" value="ognl:tradeInfo.NEW_STAFF_ID" encode=false/>
+					    <input jwcid="newStaffName@Hidden"  type="hidden" value="ognl:tradeInfo.NEW_STAFF_NAME" encode=false/>
+                  		<input type="text" id="ghDevelopStaffId_new" disabled="true" value="" valueCode="STAFF_ID" labelCode="STAFF_NAME" class="txt" />
+                 		<span HREF="javascript:void(0)" onclick="fnGetGhStaffInfo()" class="search"></span> 
+                	</div>
+				</td>
+				<td class="label">&nbsp;</td>
+				<td>&nbsp;</td>
+				
+			</tr>
+			
+	    </table>
+		<div class="e_title">预约信息</div>
+		<div class="baseItems"><span id="baseItems"></span></div> <!-- 根据场景定义class="baseItems"的宽度:如果有一个字段,style="width:33%";如果有两个字段,style="width:67%;" ;如果有三个字段, style="width:100%"  -->
+		<table class="threeCol" cellpadding="0" cellspacing="0">
+			<tr class="noBorder">
+				<td class="label"><span style="display:none;">入网方式：</span></td>
+				<td><span style="display:none"><select jwcid="IN_NET_MODE@flower:LookupCombo" source='ognl:util.getSysParam("td_s_joinmode")' value="0" onrealvaluechange="chgInNetMode()" class="txt"/></span></td>
+				<td class="label"><span id="CREDIT_VALUE_ID_1" jwcid="CREDIT_VALUE_ID_1@Any" >初始信用度：</span></td>
+				<td><span id="CREDIT_VALUE_ID_2" jwcid="CREDIT_VALUE_ID_2@Any" ><select jwcid="CREDIT_VALUE@flower:LookupCombo" source="ognl:creditInfo" value="" valueCode="PARAM_CODE" labelCode="PARAM_NAME" titles="名称:150,编码:80" titleCodes="PARAM_NAME,PARAM_CODE" class="txt" /></span></td>
+				<td class="label"></td>
+				<td></td>
+			</tr>
+
+	    	<tr id="tradenoteInfo">
+            <td class="label" >业务须知：</td>
+            <td colspan="3"><input jwcid="NOTE@TextArea" style="width:95%" rows="4" value="ognl:page.tradeInfo.NOTE" type="text" onchange="if(this.value.length>300){this.value=this.value.substr(0,300);var win = new Cs.flower.Win();win.alert('业务备注    最大长度为300');}" checkdata="illegalStrbz" /></td>
+            <td class="label">&nbsp;</td>
+            <td>&nbsp;</td>
+             </tr>
+			
+			<!-- QC:15329 BEGIN 统一版本合并 -->
+			<tr><td class="label">业务备注：</td>
+			<td colspan="5"><input jwcid="UREMARK@TextArea" rows="4" cols="24" style="width:55%;" type="text" value="ognl:tradeInfo.REMARK" onchange="if(this.value.length>100){this.value=this.value.substr(0,100);var win = new Cs.flower.Win();win.alert('业务备注    最大长度为100');}"/></td></tr>
+			<!-- QC:15329 BEGIN 统一版本合并 -->
+		</table>
+		<div class="e_title" style="cursor:hand" onclick="$('assureArea').toggle()"><a>担保信息</a></div>
+		<div id="assureArea" style="display:none">
+			<div jwcid="@cs:ExtraPropertySet" source="ognl:#{}" propSetName="MODIFY_USER_ASSURE" />
+		</div>
+		<div class="e_title" style="cursor:hand" id="hasActorArea" onclick="$('actorArea2').toggle()"><a>代办人信息</a></div>
+		<table id="actorArea2" style="display:none" cellpadding="0" cellspacing="0" class="threeCol">
+			<!--  TFS:305394 add by wanggy -->
+			<span jwcid="@Conditional" condition='ognl:page.checkBoxDisplay'>
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经办人办理业务
+			</span> <span jwcid="@Conditional" condition='ognl:page.checkBoxDisplay'>
+				 <input type="checkbox" id="jbrId" name="jbrName" />
+			</span>
+					
+            <!-- end -->
+			<tr>
+				<td class="label">经办人证件类型：</td>
+				<td><select jwcid="ACTOR_CERTTYPEID@flower:LookupCombo" source="ognl:page.util.getSysParam('td_s_passporttype_pspt')" value="ognl:page.tradeInfo.ACTOR_CERTTYPEID"  
+	    	                	 onrealvaluechange="chgPsptTypeUserJB()"  class="txt" /></td>
+				<!-- <td><select jwcid="ACTOR_CERTTYPEID@flower:LookupCombo" source="ognl:page.util.getSysParam('td_s_passporttype0')" value=""  
+	    	           onrealvaluechange ="$('ACTOR_CERTNUM').value=''; if(Cs.flower.LookupCombo.getValue(this) == '0'){$('ACTOR_CERTNUM').checkdata = 'thelength=15,ispsptid0';}else if(Cs.flower.LookupCombo.getValue(this) == '1'){$('ACTOR_CERTNUM').checkdata = 'thelength=18,ispsptid0';}else $('ACTOR_CERTNUM').checkdata = 'isalnum,maxlength=\'20\'';" class="txt"/></td>
+	    	     -->
+	    	     <td class="label">经办人联系电话：</td>
+				<td><input id="ACTOR_PHONE" value="" checkdata="isphone" class="txt"/></td>
+				<!--经办人证件地址-->
+                <td class="label">经办人证件地址：</td>
+				<td><input id="ACTOR_ADDRESS" value="" checkdata="maxlength=80,isnotalldigit" class="txt"/></td>
+
+			</tr>
+			<tr>
+				<td class="label">经办人名称：</td>
+				<td><input id="ACTOR_NAME" value="" checkdata="illegalStr" maxlength="25" class="txt"/></td>
+				<td class="label">经办人客户证件号码：</td>
+	    	    <td><input id="ACTOR_CERTNUM" value="" checkdata="isalnum" maxlength="20" class="txt"/></td>
+			
+			</tr>
+			<!--  TFS:305394 add by wanggy -->
+			<tr>
+				<td>&nbsp;&nbsp;&nbsp;</td>
+				<td colspan="2"><div style="text-align:right; padding:5px 0;">
+		        			<input type=button value="读二代证" onclick="check_infosx_jbr(1);"  id="readuzbuttonJbr"  name="ok" class="btn2" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" /> 
+          					<!-- <input jwcid="@Any"  type=button value="身份认证" onclick="check_infosx_jbr(2);" id="policeuzbuttonJbr"   name="ok" class="btn2" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'" /> -->
+          		    <span jwcid="@Conditional" condition='ognl:page.checkDoublePhotoDisplayJBR'> 
+          				<input jwcid="doublePhotoDisplayJBR@Hidden"  type="hidden" value="ognl:page.doublePhotoDisplayJBR" encode=false/>   
+          				<input jwcid="RETURN_SIGN_JBR@Hidden"  type="hidden" value="" encode=false/>
+          				<input jwcid="HiddenPSPT_JBR@Hidden"  type="hidden" value="" encode=false/>
+          				</span> 
+          				 <span jwcid="@Conditional" condition='ognl:page.checkDoublePhotoDisplayJBR'> 
+          			    <input name="getPhotoJBR" type="button"  value="照片现场采集" class="btn5"  onmouseover="this.className='btn5 btnOver'" onmouseout="this.className='btn5 btnOff'" id="getPhotoJBR" onclick="getDoublePhotoJBR()"/> 			
+					   
+					    <input name="uploadPhotoJBR" type="button"  value="双照片上传" class="btn5" onmouseover="this.className='btn5 btnOver'" onmouseout="this.className='btn5 btnOff'" id="uploadPhotoJBR" 
+					     onclick="var win=new Cs.flower.Win();win.confirm('请先完善证件号码再上传照片，否则证件号码变化后需要重新上传？',{ok: function(){uploadDoublePhotoJBR()},cancel:function(){return false;}});"/> 
+				        </span>
+			      <span jwcid="@Conditional" condition='ognl:page.checkGetPhotoDisplayAllNation'>
+				<input type="button"  value="经办人照片采集" class="btn5"  onmouseover="this.className='btn5 btnOver'" onmouseout="this.className='btn5 btnOff'" id="getPhotoJBRALLWIDE" onclick="getPhotoJBR_ALLWIDE()"/> 			
+				</span>
+          		</div></td>
+			</tr>
+			<!-- end -->
+		</table>
+		<!--   全国拍照按钮 add by  taomunan -->
+          <span  jwcid="@Conditional" condition='ognl:page.checkGetPhotoDisplayAllNation'> 
+				
+				<div   class="btnArea">
+				<input type="button" class="btn5"  onmouseover="this.className='btn5 btnOver'" onmouseout="this.className='btn5 btnOff'" id="getPhotoOfBR" value="本人照片采集" onclick="getPhotoBR()"/>
+                
+                
+                <input type="button"  
+						id="appTakePhoto" class="btn5" value="App照片拍摄"
+						onclick="takePhotowl();"
+						onmouseover="this.className='btn5 btnOver'"
+						onmouseout="this.className='btn5 btnOff'">
+				<input type="button" 
+						id="appYanZheng" disabled=true class="btn5" value="App照片验证"
+						onclick="takePhotoyz();"
+						onmouseover="this.className='btn5 btnOver'"
+						onmouseout="this.className='btn5 btnOff'">
+				</div>
+
+				
+				
+				
+
+          </span> 
+		<!-- add end  -->
+	</div>
+   <!--baseInfo 结束-->
+   <!--postInfo 开始-->
+   <div jwcid="postInfo@Block">
+   	<!-- QC:35017 Begin -->
+    	<div class="e_title">账单寄送方式</div>
+        <table cellpadding="0" cellspacing="0" class="twoCol">
+            <tr>
+                <td class="label">邮寄信息：</td>
+                <td><select jwcid="POST_TAG@flower:LookupCombo" source='ognl:util.getOptions(#{"0":"0－不邮寄","1":"1－邮寄"})' value="0" onrealvaluechange="chgPostTag()" class="txt" /></td>
+                <td class="label" id='PostCycArea'>邮寄周期：</td>
+                <td colSpan="5" id='PostCycAreaValue'><span jwcid="POST_CYC@flower:LookupCombo" source='ognl:util.getOptions(#{"0":"按月","1":"按季","2":"按年"})' value="0" required="true" class="txt" /></td>
+    		</tr>
+    		<!-- QC:3011 Begin -->
+    		<!-- QC:3011 End-->
+            <tr id="yj1">
+            	<td class="label">邮寄内容：</td>
+                <td>
+                    <span class="fieldset" id='PostContentcArea'>
+                        <span id="content"></span>
+                        <input id="POST_CONTENT_RECKONING" name="postContent" class="radio" type="checkbox"/>账单
+                        <input id="POST_CONTENT_INVOICE" name="postContent" class="radio" type="checkbox" />发票
+                        <input id="POST_CONTENT_AD" name="postContent" class="radio" type="checkbox"/>其他
+                        <input id="POST_CONTENT_BILL" name="postContent" class="radio" type="checkbox" style="display:none" /><span id="contentNone" style="display:none">清单</span> 
+                    </span>
+                </td>
+                <td class="label">邮寄方式：</td>
+                <td>
+                    <span id='PostTypeArea'>
+                       <span id="postmode"></span>
+                        <input id="POST_TYPESET_MAIL" name="postType" class="radio" type="checkbox" onclick="chgPostType()"/>邮政
+                        <input id="POST_TYPESET_FAX" name="postType" class="radio" type="checkbox" onclick="chgPostType()"/>传真
+                        <input id="POST_TYPESET_EMAIL" name="postType" class="radio" type="checkbox" onclick="chgPostType()"/>Email
+                     </span>
+                </td>
+            </tr>
+            <tr id="yj2">
+                <td class="label" id='emailSS'>Email地址：</td>
+                <td id='emailValue'><input id="EMAIL" name="postInfo" type="text" value="" maxlength=30 checkdata="isemail" class="txt"/></td>
+                <td class="label" id='faxNum'>传真电话：</td>
+                <td id='faxNumValue'> <input id="FAX_NBR" name="postInfo" type="text" value="" maxlength=15 checkdata="isphone" class="txt"/></td>
+            </tr>
+             <tr id="yj3">
+                <td class="label" id='postName'>邮寄名称：</td>
+                <td id='postNameValue'><input id="POST_NAME" name="postInfo" type="text" class="txt" value="" maxlength=30/></td>
+                <td class="label" id='postCode'>邮政编码：</td>
+                <td id='postCodeValue'><input id="POST_CODE" name="postInfo" type="text" class="txt" value="" checkdata="isinteger,thelength=6"/></td>
+            </tr>
+            <tr id="yj4">
+            	<td class="label" id='postAddress'>邮寄地址：</td>
+            	<td id='postAddressValue' colspan="3"><input id="POST_ADDRESS" name="postInfo" type="text" class="txt" value="" /></td>
+            </tr>
+            <tr>
+                <td class="label" style="display:none">邮寄类型：</td>
+                <td style="display:none"><select jwcid="ID_TYPE@flower:LookupCombo" source='ognl:util.getOptions(#{"1":"用户邮寄类型","2":"账户邮寄类型"})' required="true" value="1" class="txt" /></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+    		</tr>
+         </table>
+   </div>
+  <!--postInfo 结束-->
+	<div jwcid="saleInfo@Block">
+	</div>
+    <!-- wangwy.start -->
+    <div jwcid="installProFeeInfo@Block">
+		    <table cellpadding="0" cellspacing="0" class="threeCol">
+			<tr>
+                <td class="label">费用类型：</td>
+				<td><input type="text" jwcid="CHANGE_FEE_TYPE@flower:LookupCombo" source='ognl:util.getOptions(#{"1":"营业费用","2":"押金费用","3":"预存"})' value="ognl:tradeInfo.CHANGE_FEE_TYPE" 
+					onrealvaluechange="changeFeeType()" class="txt"/></td>
+				<td class="label"><div id="feeName1" style="color:red">营 业</div><div id="feeName2" style="display:none;color:red">押 金</div>费用项：</td>
+				<td><select jwcid="FEE_TYPE@flower:LookupCombo" 
+    					source="ognl:''" 
+    					value="ognl:tradeInfo.FEE_TYPE" class="txt"/></td>
+    			<td class="label">费用(元)：</td>
+    			<td><input id="installProFee" value="0"　maxlength=11 checkdata="isdigit"  class="txt"/></td>
+			</tr>
+			<tr>
+     	    	<td colspan=6  align="center">
+    	    		<input type="button" id="addBtn" class="btn2" value="添加" onclick="return chkInstallFee()" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'"/>
+     	    		<input type="button" id="deleteBtn" class="btn2" value="删除" onclick="return deleteInstallFee()" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'"/>	
+				</td>
+	     	</tr>
+		</table>
+		    <div class="e_title">附加费用信息</div>
+    		<div id="tabArea" class="UITable" style="overflow-y:auto;height:180px;">
+    			<table id="InstallFeeTable" onclick="installFeeTabEdit.myClickRow();">
+    		 		<thead>
+    		 		    <tr>
+    		 		      <th id="col_INSTALL_FEE_NAME" style="width:50%">费用名称</th>
+    		 		      <th id="col_INSTALL_FEE" style="width:50%">费用(元)</th>
+    		 		      <th id="col_X_TAG" style="display:none">X_TAG</th>
+    		 		      <th id="col_INSTALL_FEE_TYPE" style="display:none">费用类型</th>
+    		 		      <th id="col_INSTALL_FEE_CODE" style="display:none">费用编码</th>
+    		 		    </tr>
+    		 		</thead>
+    		 		<tbody>
+    		 		</tbody>
+    		 	</table>
+    		</div>
+	</div>
+    <!-- wangwy.end -->
+  <!--familyInfo 开始-->
+  <div jwcid="familyInfo@Block">
+		<table cellpadding="0" cellspacing="0" class="threeCol">
+			<tr>
+				<td class="label">亲情业务办理方式：</td>
+				<td><span jwcid="familyTag@flower:LookupCombo" source='ognl:util.getOptions(#{"0":"创建亲情","2":"取消创建亲情"})' value=""
+					onrealvaluechange="chgfamilyTag()" class="txt" /></td>
+				<td class="label"></td>
+				<td></td>
+				<td class="label"></td>
+				<td></td>
+				 
+			</tr>
+		</table>
+		<div id="fInfo">
+			<div class="e_title">亲情产品信息</div>
+			<table cellpadding="0" cellspacing="0" class="threeCol">
+				<tr>
+					<td class="label">亲情类型：</td>
+					<td><select jwcid="PRODUCT_TYPE_CODE@flower:LookupCombo" 
+						source="ognl:productTree" value="" 
+						valueCode="PRODUCT_TYPE_CODE" labelCode="PRODUCT_TYPE_NAME" 
+						titles="亲情类型名称:150,编码:80" boxWidth="250" 
+						titleCodes="PRODUCT_TYPE_NAME,PRODUCT_TYPE_CODE"  
+    					onrealvaluechange="changeProductTree()"  class="txt"/></td>
+					<td class="label">亲情产品：</td>
+					<td><select jwcid="FAMILY_PRODUCT@flower:LookupCombo" onrealvaluechange="changeProduct()"
+   					source="" value="" valueCode='PRODUCT_ID' labelCode='PRODUCT_NAME' titleCodes='PRODUCT_NAME,PRODUCT_ID' class="txt"/></td>
+					<td class="label"></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div id="qFamily">
+			<div class="e_title">查询亲情组合</div>
+			<table cellpadding="0" cellspacing="0" class="threeCol">
+				<tr>
+					<td class="label">亲情号码：</td>
+					<td><input type="text" id="familySn" value="" lastvalue="" onblur="chgFamilySn(this)" class="txt"></td>
+					<td class="label"></td>
+					<td></td>
+					<td class="label"></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+        <!---->
+		<div>
+			<div id="fmemInfo">
+				<table cellpadding="0" cellspacing="0" class="threeCol">
+					<tr>
+						<td class="label">副卡电信类型：</td>
+						<td><select jwcid="familyNetType@flower:LookupCombo" source="ognl:util.getCommParam('CSM','2444','','PARAM_CODE','PARAM_NAME')" value="ognl:tradeInfo.familyNetType" class="txt" /></td>						
+						<td class="label">副卡号码：</td>
+						<td><input id="FAMILY_NO" value="" class="txt" checkdata="isdigit,maxlength=15"/></td>
+						<td class="label"></td>
+    					<td></td>					
+					</tr>
+					<tr id="pwd" style="display:none">
+						<td class="label">副卡用户密码：</td>
+    					<td><input id="FAMILY_PWD" type="password" checkdata="maxlength=6" class="txt"/></td>
+    					<td class="label"></td>
+    					<td></td>	
+    					<td class="label"></td>
+    					<td></td>						
+					</tr>
+					<tr>
+						<td colspan="6" class="btnArea">
+							<input type="button" id="addBtn" class="btnInside" value="新增" onclick="return chkFamily()"  onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/>
+							<input type="button" id="deleteBtn" class="btnInside" value="删除" onclick="return deleteFamily()" onmouseover="this.className='btnInside btnInsideOver'" onmouseout="this.className='btnInside btnInsideOff'"/>
+						</td>
+					</tr>
+				</table>
+	    		<div id="tabArea">
+	    			<div class="e_title">副卡用户信息</div>
+	    			<div class="UITable" style="height:150px;border:1px solid #bcbdbf;">
+	    			<table id="familyTable" onclick="tabEdit.clickRow();">
+	    		 		<thead>
+	    		 		    <tr>
+	    		 		      <th id="col_X_TAG" style="display:none">X_TAG</th>
+	    		 		      <th id="col_OPER_TYPE">操作方式</th>
+	    		 		      <th id="col_SERIAL_NUMBER_B">副卡号码</th>
+	    		 		      <th id="col_USER_ID_B" style="display:none">USER_ID_B</th>
+	    		 		      <th id="col_RELATION_TYPE_CODE" style="display:none">RELATION_TYPE_CODE</th>
+	    		 		      <th id="col_ROLE_CODE_B" style="display:none">ROLE_CODE_B</th>
+	    		 		      <th id="col_USER_ID_A" style="display:none">USER_ID_A</th>
+	    		 		      <th id="col_SERIAL_NUMBER_A" style="display:none">SERIAL_NUMBER_A</th>
+	    		 		      <th id="col_NET_TYPE_CODE" style="display:none">NET_TYPE_CODE</th>
+	    		 		      <th id="col_FANILY_INFO" style="display:none">FANILY_INFO</th>
+	    		 		      <th id="col_RELATION_ATTR" style="display:none">RELATION_ATTR</th>
+	    		 		    </tr>
+	    		 		</thead>
+	    		 		<tbody>
+	    		 		</tbody>
+	    		 	</table>
+	    		 	</div>
+	    		</div>
+		  	</div>
+			<div style="display:none">
+				<div class="e_title">集团信息</div>
+				<table cellpadding="0" cellspacing="0" class="oneCol">
+					<tr style="display:none">
+						<td class="label">集团编号：</td>
+						<td>
+							<input jwcid="GRP_SERIAL_NUMBER@TextField" value="ognl:page.tradeInfo.GRP_SERIAL_NUMBER" type="text" checkdata="minlength=5,isalnum"  class="txt"/>
+							<A HREF="javascript:void(0)" onclick="return queryGroupUser(this);">忘记编号？</A>
+							<input type="button" jwcid="queryButton@Button" value="查询" class="btn2" onclick="queryUsrRelaBySN($('GRP_SERIAL_NUMBER'));" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'"/>
+						</td>
+					</tr>
+			        <tr style="display:''"> 
+						<td class="label">集团客户编码：</td>
+						<td>
+							<input jwcid="GROUP_ID@TextField" value="ognl:tradeInfo.GROUP_ID"  checkdata="minlength=5,isalnum" onchange = "queryGrpOrderProducts(this)" lastvalue="" class="txt"/>
+							<A HREF="javascript:void(0)" onclick="return queryCustGroup(this);">忘记集团客户编码？</A>
+							<input type="button" jwcid="queryGrpButton@Button" value="查询" class="btn2" onclick="queryGrpOrderProducts($('GROUP_ID'));" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'"/>
+							<input type="button" class="btn2" id="grpDelBtn" value="删除" onclick="delUsrGrpRela()" onmouseover="this.className='btn2 btnOver'" onmouseout="this.className='btn2 btnOff'"/>
+						</td>
+					</tr>
+				</table>
+		    </div>
+			<div id="grpArea" class="UITable" style="display:none">
+				<table id="grpTable" onclick="grpEdit.clickRow();">
+			 		<thead>
+			 		    <tr>
+			 		      <th id="col_X_TAG" style="display:none">X_TAG</th>
+			 		      <th id="col_GROUP_ID">集团客户编码</th>
+			 		      <th id="col_SERIAL_NUMBER_A">集团用户编码</th>
+			 		      <th id="col_REMARK">集团类型</th>
+			 		    </tr>
+			 		</thead>
+			 		<tbody>
+			 		</tbody>
+			 	</table>
+			</div>
+		</div>
+        <!---->
+   </div>
+   <!--familyInfo 结束-->
+   <!--groupInfo 开始-->
+   <div jwcid="groupInfo@Block">
+	    <table>
+	       <tr>
+	           <td width="22%" align="center" valign="top" desc="群类型">
+					<div style="overflow-x:hidden;overflow-y:auto;height:440px;width:100%;" class="UITableBox">
+                        <div class="UITable" style="overflow-y:auto;height:420px;width:100%;">
+                            <table id="t_gtype" onclick="tabGTypeClick()">
+                                <thead>
+                                    <tr>
+                                      <th id="col_PARAM_NAME" class="first">业务群类型</th>                             
+                                      <th id="col_PARA_CODE1" style="display:none">PARA_CODE1</th>
+                                      <th id="col_PARA_CODE2" style="display:none">PARA_CODE2</th>
+                                      <th id="col_PARA_CODE3">群产品</th>
+                                      <th id="col_PARA_CODE4" style="display:none">PARA_CODE4</th>
+                                      <th id="col_PARA_CODE5" style="display:none">PARA_CODE5</th>
+                                      <th id="col_PARA_CODE6" style="display:none">PARA_CODE6</th> 
+                                      <th id="col_PARA_CODE7" style="display:none">PARA_CODE7</th> 
+                                      <th id="col_PARA_CODE8" style="display:none">PARA_CODE8</th> 
+                                      <th id="col_PARA_CODE9" style="display:none">PARA_CODE9</th>
+                                      <th id="col_PARA_CODE10" style="display:none">PARA_CODE10</th>
+                                      <th id="col_PARA_CODE11" style="display:none">PARA_CODE11</th>
+                                      <th id="col_PARA_CODE12" style="display:none">PARA_CODE12</th>
+                                      <th id="col_PARA_CODE13" style="display:none">PARA_CODE13</th>
+                                      <th id="col_PARA_CODE14" style="display:none">PARA_CODE14</th>
+                                      <th id="col_PARA_CODE15" style="display:none">PARA_CODE15</th>
+                                      <th id="col_PARA_CODE16" style="display:none">PARA_CODE16</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="e_center">
+                            <input type="button" value="创建群" class="btn3" name="btGTypeCreate" disabled onclick="createGroup(this)" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'"/>
+                            <input type="button" value="引入群" class="btn3" name="btGTypeJoin" disabled onclick="joinGroup(this)" onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'"/>
+                        </div>
+                    </div>
+	           </td>
+	           <td desc="群和成员" valign="top">
+	            <table>
+                  <tr >
+                    <td align="center" desc="群信息">
+                    <div style="overflow-x:hidden;overflow-y:hidden;height:180px;"  class="UITableBox">
+                        <div class="UITable" style="overflow-x:hidden;overflow-y:auto;height:150px;">
+                            <table id="t_ginfo" onclick="tabGInfoClick()">
+                                <thead>
+                                    <tr>
+                                        <th id="col_PRODUCT_NAME" class="first">业务群类型</th>  
+                                        <th id="col_SERIAL_NUMBER">群编号</th>   
+                                        <th id="col_USER_ID">群ID</th>
+                                        <th id="col_PRODUCT_ID">群组产品标示</th>
+                                        <th id="col_RELATION_TYPE_CODE">关系类型</th>
+                                        <th id="col_USER_A_ITEMS" style="display:none">A_ITEMS</th>
+                                        <th id="col_UU_INFOS" style="display:none">UU_INFOS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="e_center">
+                            <input type="button" value="修改群" class="btn3" id="btnModGInf" onclick="modifyGInfo()" disabled onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'"/>
+                            <input type="button" value="删除群" class="btn3" id="btnDelGInf" onclick="deleteGInfo()" disabled onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'"/>
+                        </div>
+					</div>
+                    </td>
+                  </tr>
+	              <tr >
+					<td align="center" desc="成员信息">
+					<div id="tsgroup" style="overflow-x:hidden;overflow-y:hidden;height:250px;">
+                        <div id="tsgroup_tabs"></div>
+                        <div id="tsgroup_content" class="tabsetContentDiv" lightAreaId="" >
+                            <div id="gmembInfo" class="e_center UITableBox">
+                                <div class="UITable" style="overflow-x:hidden;overflow-y:auto;height:180px;">
+                                    <table id="t_gmemb" onclick="tabMembClick()">
+                                         <thead>
+                                             <tr>
+                                               <th id="col_SERIAL_NUMBER_B" class="first">成员号码</th>                             
+                                               <th id="col_USER_ID_B">成员标示</th>
+                                               <th id="col_ROLE_B">成员角色</th>
+                                               <th id="col_USER_ID_A" style="display:none">USER_ID_A</th>
+                                               <th id="col_ROLE_CODE_B" style="display:none">ROLE_CODE_B</th>
+                                               <th id="col_RELATION_TYPE_CODE">关系类型</th>
+                                               <th id="col_MODIFY_TAG" style="display:none">MODIFY_TAG</th>
+                                               <th id="col_MODIFY" style="display:none">MODIFY_TAG</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                         </tbody>
+                                    </table>                                
+                                </div>
+                                <input type="button" value="加入群" class="btn3" id="btnInGroup" onclick="membInGroup()" disabled onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'"/>
+                                <input type="button" value="退出群" class="btn3" id="btnOutGroup" onclick="membOutGroup()" disabled onmouseover="this.className='btn3 btnOver'" onmouseout="this.className='btn3 btnOff'"/>                        
+                              </div>                      
+                              <div id="gitemInfo" >
+                                  <div id="gItemArea" productId="-1">群属性</div>
+                              </div>
+                         </div>
+                    </div>
+	               </td>
+	             </tr>
+	           </table>
+           </td>
+        </tr>
+	  </table>
+	</div>
+   <!--groupInfo 结束-->
+</div>
